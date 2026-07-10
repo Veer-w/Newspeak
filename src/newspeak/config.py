@@ -21,7 +21,6 @@ DEFAULT_RSS_FEEDS = (
     "https://rss.arxiv.org/rss/cs.LG",  # arXiv Machine Learning
     "https://techcrunch.com/category/artificial-intelligence/feed/",  # TechCrunch AI
     "https://machinelearning.apple.com/rss.xml",  # Apple Machine Learning Blog
-    "https://subconscious.substack.com/feed",  # Substack newsletters
 )
 
 DEFAULT_KEYWORDS = (
