@@ -20,11 +20,3 @@ class NewsItem(BaseModel):
     score: float = Field(description="Relevance and impact score from 1.0 (lowest) to 10.0 (highest)")
     reason: str = Field(description="A brief explanation of why this is top news in AI/ML")
     source: str = Field(description="The source name of the article")
-
-class Newsletter(BaseModel):
-    """Represents the final newsletter payload containing the top news and recipients list."""
-    model_config = {"frozen": True}
-
-    date: str
-    items: list[NewsItem]
-    recipients: list[str]

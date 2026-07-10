@@ -29,6 +29,9 @@ jobs:
       - name: Run Newsletter Pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Email delivery: set repo variable EMAIL_PROVIDER=smtp to force Gmail/SMTP
+          # even if RESEND_API_KEY is also set. Defaults to "auto" (Resend-first).
+          EMAIL_PROVIDER: ${{ vars.EMAIL_PROVIDER }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
@@ -36,6 +39,9 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_FROM: ${{ secrets.SMTP_FROM }}
           RECIPIENTS: ${{ secrets.RECIPIENTS }}
+          # Optional ranking-backend tuning (see README):
+          LLM_BACKEND: ${{ vars.LLM_BACKEND }}
+          LLM_MAX_CANDIDATES: ${{ vars.LLM_MAX_CANDIDATES }}
           PYTHONPATH: src
         run: |
           uv run python src/newspeak/main.py

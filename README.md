@@ -57,10 +57,39 @@ SMTP_FROM=newspeak@yourverifieddomain.com
 
 # Option B: Standard SMTP Fallback (e.g., Gmail SMTP)
 SMTP_SERVER=smtp.gmail.com
-SMTP_PORT=587
+SMTP_PORT=587          # 465 (implicit SSL) and 587/25 (STARTTLS) are both supported
 SMTP_USERNAME=your_email@gmail.com
 SMTP_PASSWORD=your_app_password
 SMTP_FROM=your_email@gmail.com
+
+# Optional: ranking backend & free-tier tuning (see "Ranking Backends" below)
+# LLM_BACKEND=gemini            # gemini (default) | ollama | heuristic
+# LLM_MAX_CANDIDATES=150        # lower to reduce tokens if you hit free-tier limits
+# OLLAMA_MODEL=llama3.2         # only used when LLM_BACKEND=ollama
+# OLLAMA_HOST=http://localhost:11434
+```
+
+---
+
+## Ranking Backends & Free-Tier Resilience
+
+Newspeak curates stories with a pluggable ranking backend, chosen via `LLM_BACKEND`:
+
+| `LLM_BACKEND` | Behavior | Cost | Notes |
+| --- | --- | --- | --- |
+| `gemini` *(default)* | Gemini ranks/summarizes, **with an automatic heuristic backup** | Free-tier Gemini | If Gemini is rate-limited or quota-exhausted, the newsletter still ships via the heuristic ranker instead of failing. Recommended for GitHub Actions. |
+| `heuristic` | Pure-Python scoring, no LLM, no API key | Free | Ranks by AI/ML keyword relevance, content depth, and source authority; summaries are drawn from the article text. Always available. |
+| `ollama` | A **local** model via [Ollama](https://ollama.com) (with heuristic backup) | Free (your hardware) | For running/previewing on your own machine without spending Gemini quota. **Not suitable for GitHub Actions** (CPU-only runners are too slow). |
+
+**Staying within the Gemini free tier:** the pipeline makes exactly one Gemini call per run. To keep it comfortably under per-minute token limits it heuristically pre-ranks candidates and sends Gemini only the best `LLM_MAX_CANDIDATES` (default 150, with truncated descriptions), and retries transient `429`/`503` responses with backoff. Lower `LLM_MAX_CANDIDATES` if you still hit limits.
+
+**Using Ollama locally:**
+```bash
+# One-time: install Ollama and pull a small model
+ollama pull llama3.2
+
+# Preview the newsletter using the local model (no Gemini quota spent)
+LLM_BACKEND=ollama PYTHONPATH=src uv run python src/newspeak/main.py --dry-run
 ```
 
 ---

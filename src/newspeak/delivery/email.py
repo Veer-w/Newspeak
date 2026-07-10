@@ -1,3 +1,4 @@
+import asyncio
 from abc import ABC, abstractmethod
 from typing import Sequence
 import logging
@@ -5,8 +6,9 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
+from urllib.parse import urlparse
 import resend
-from jinja2 import Template
+from jinja2 import Environment
 from newspeak.types import NewsItem
 
 logger = logging.getLogger(__name__)
@@ -70,13 +72,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding: 24px;
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
         }
         .title {
             font-size: 18px;
@@ -112,21 +107,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             background-color: #f1f5f9;
             color: #475569;
         }
-        .badge-score {
-            font-weight: 700;
-        }
-        .score-high {
-            background-color: #dcfce7;
-            color: #15803d;
-        }
-        .score-med {
-            background-color: #dbeafe;
-            color: #1d4ed8;
-        }
-        .score-low {
-            background-color: #f3f4f6;
-            color: #4b5563;
-        }
+        .badge-score { font-weight: 700; }
+        .score-high { background-color: #dcfce7; color: #15803d; }
+        .score-med { background-color: #dbeafe; color: #1d4ed8; }
+        .score-low { background-color: #f3f4f6; color: #4b5563; }
         .summary {
             font-size: 15px;
             line-height: 1.6;
@@ -146,6 +130,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #6b21a8;
             font-style: italic;
         }
+        .source-link {
+            margin-top: 14px;
+            font-size: 13px;
+        }
+        .source-link a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .source-link a:hover { text-decoration: underline; }
+        .source-link .label {
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            margin-right: 6px;
+        }
         .footer {
             text-align: center;
             padding: 30px 20px;
@@ -153,17 +155,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #64748b;
             line-height: 1.5;
         }
-        .footer a {
-            color: #4f46e5;
-            text-decoration: none;
-        }
+        .footer a { color: #4f46e5; text-decoration: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>Newspeak Digest</h1>
-            <p>Your Daily Machine Learning & AI Intell</p>
+            <p>Your Daily Machine Learning &amp; AI Intelligence</p>
             <div class="date">{{ date }}</div>
         </div>
 
@@ -172,41 +171,58 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <div class="title">
                 <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
             </div>
-            
+
             <div class="metadata">
                 <span class="badge badge-source">{{ item.source }}</span>
                 {% if item.score >= 8.5 %}
-                <span class="badge badge-score score-high">★ {{ item.score }} / 10.0</span>
+                <span class="badge badge-score score-high">★ {{ "%.1f"|format(item.score) }} / 10.0</span>
                 {% elif item.score >= 6.0 %}
-                <span class="badge badge-score score-med">★ {{ item.score }} / 10.0</span>
+                <span class="badge badge-score score-med">★ {{ "%.1f"|format(item.score) }} / 10.0</span>
                 {% else %}
-                <span class="badge badge-score score-low">★ {{ item.score }} / 10.0</span>
+                <span class="badge badge-score score-low">★ {{ "%.1f"|format(item.score) }} / 10.0</span>
                 {% endif %}
             </div>
 
-            <div class="summary">
-                {{ item.summary }}
-            </div>
+            <div class="summary">{{ item.summary }}</div>
 
             <div class="reason-box">
                 <p><strong>Impact:</strong> {{ item.reason }}</p>
+            </div>
+
+            <div class="source-link">
+                <span class="label">Source</span>
+                <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.source }} — read the original at {{ item.url | domain }} &rarr;</a>
             </div>
         </div>
         {% endfor %}
 
         <div class="footer">
             <p>This email was automatically generated and curated by <strong>Newspeak</strong> using Google Gemini.</p>
-            <p>&copy; 2026 Newspeak. Powered by Functional Python & uv.</p>
+            <p>&copy; 2026 Newspeak. Powered by Functional Python &amp; uv.</p>
         </div>
     </div>
 </body>
 </html>
 """
 
+def _domain(url: str) -> str:
+    """Pure helper: extract a clean display domain from a URL for the source link."""
+    try:
+        netloc = urlparse(url).netloc
+        return netloc[4:] if netloc.startswith("www.") else netloc or url
+    except Exception:
+        return url
+
+
+# Jinja2 environment with autoescape enabled to prevent XSS from LLM-generated content
+_JINJA_ENV = Environment(autoescape=True)
+_JINJA_ENV.filters["domain"] = _domain
+_NEWSLETTER_TEMPLATE = _JINJA_ENV.from_string(HTML_TEMPLATE)
+
+
 def render_newsletter_html(date_str: str, items: Sequence[NewsItem]) -> str:
-    """Renders the Jinja2 HTML email template. (Pure function)"""
-    template = Template(HTML_TEMPLATE)
-    return template.render(date=date_str, items=items)
+    """Renders the Jinja2 HTML email template with autoescape. (Pure function)"""
+    return _NEWSLETTER_TEMPLATE.render(date=date_str, items=items)
 
 
 class EmailDelivery(ABC):
@@ -224,7 +240,6 @@ class ResendDelivery(EmailDelivery):
     def __init__(self, api_key: str, sender: str = "newspeak@resend.dev"):
         self.api_key = api_key
         self.sender = sender
-        resend.api_key = api_key
 
     async def send_newsletter(self, date_str: str, items: Sequence[NewsItem], recipients: Sequence[str]) -> bool:
         if not recipients:
@@ -233,24 +248,33 @@ class ResendDelivery(EmailDelivery):
 
         html_content = render_newsletter_html(date_str, items)
         subject = f"Newspeak Daily: Top AI/ML News ({date_str})"
-        
+
+        # Capture the api_key locally to avoid closure over mutable self in executor
+        api_key = self.api_key
+        sender = self.sender
+
         try:
             logger.info(f"Sending email via Resend to {len(recipients)} recipients...")
-            # Run resend email dispatch in executor to keep it async friendly
-            import asyncio
-            loop = asyncio.get_event_loop()
-            
+            loop = asyncio.get_running_loop()
+
             def send_call():
-                # Resend allows a list of string emails for 'to' parameter
+                resend.api_key = api_key
                 return resend.Emails.send({
-                    "from": self.sender,
+                    "from": sender,
                     "to": list(recipients),
                     "subject": subject,
                     "html": html_content
                 })
-            
-            await loop.run_in_executor(None, send_call)
-            logger.info("Email delivered successfully via Resend API.")
+
+            result = await loop.run_in_executor(None, send_call)
+
+            # Resend SDK returns an Email object with an `id` on success
+            email_id = getattr(result, "id", None)
+            if not email_id:
+                logger.error(f"Resend API returned unexpected response (no id): {result}")
+                return False
+
+            logger.info(f"Email delivered successfully via Resend. Email ID: {email_id}")
             return True
         except Exception as e:
             logger.error(f"Resend delivery failed: {e}")
@@ -277,26 +301,31 @@ class SMTPDelivery(EmailDelivery):
 
         try:
             logger.info(f"Connecting to SMTP server {self.server}:{self.port}...")
-            
-            import asyncio
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
+
+            server = self.server
+            port = self.port
+            username = self.username
+            password = self.password
+            from_addr = self.from_addr
 
             def send_smtp():
-                # Build mime message
                 msg = MIMEMultipart("alternative")
                 msg["Subject"] = subject
-                msg["From"] = self.from_addr
+                msg["From"] = from_addr
                 msg["To"] = ", ".join(recipients)
+                msg.attach(MIMEText(html_content, "html", "utf-8"))
 
-                # Attach html part
-                msg.attach(MIMEText(html_content, "html"))
-
-                # SMTP login and send
-                with smtplib.SMTP(self.server, self.port) as smtp:
-                    smtp.starttls()  # Upgrade connection to TLS
-                    if self.username and self.password:
-                        smtp.login(self.username, self.password)
-                    smtp.sendmail(self.from_addr, list(recipients), msg.as_string())
+                # Port 465 speaks implicit TLS (SMTPS) from the first byte, so it needs
+                # SMTP_SSL and must NOT call starttls(). 587/25 connect in plaintext and
+                # then upgrade via STARTTLS.
+                smtp_factory = smtplib.SMTP_SSL if port == 465 else smtplib.SMTP
+                with smtp_factory(server, port) as smtp:
+                    if port != 465:
+                        smtp.starttls()
+                    if username and password:
+                        smtp.login(username, password)
+                    smtp.sendmail(from_addr, list(recipients), msg.as_string())
 
             await loop.run_in_executor(None, send_smtp)
             logger.info("Email delivered successfully via SMTP.")
@@ -316,7 +345,8 @@ class MockDelivery(EmailDelivery):
         logger.info(f"Mock Delivery: Outputting email for {len(recipients)} recipients to {self.output_path.absolute()}")
         try:
             html_content = render_newsletter_html(date_str, items)
-            self.output_path.write_text(html_content)
+            # Always specify utf-8 to handle Unicode article titles correctly
+            self.output_path.write_text(html_content, encoding="utf-8")
             logger.info("Mock newsletter file written successfully.")
             return True
         except Exception as e:
