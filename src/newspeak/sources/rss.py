@@ -163,8 +163,13 @@ async def fetch_feed(client: httpx.AsyncClient, url: str) -> Sequence[Article]:
         return []
 
 
-async def aggregate_rss_feeds(urls: Sequence[str]) -> Sequence[Article]:
-    """Orchestrates concurrent fetching of multiple RSS/Atom feeds."""
+async def aggregate_rss_feeds(urls: Sequence[str], max_per_feed: int | None = None) -> Sequence[Article]:
+    """Orchestrates concurrent fetching of multiple RSS/Atom feeds.
+
+    When `max_per_feed` is set, each feed contributes at most that many articles (its
+    freshest, since feeds are newest-first). This stops a high-volume feed like arXiv
+    (50-150 papers/day) from flooding the pool and crowding out news/blog sources.
+    """
     async with httpx.AsyncClient() as client:
         tasks = [fetch_feed(client, url) for url in urls]
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -173,5 +178,8 @@ async def aggregate_rss_feeds(urls: Sequence[str]) -> Sequence[Article]:
             if isinstance(result, BaseException):
                 logger.error(f"Feed fetch raised exception for {urls[i]}: {result}")
             else:
-                articles.extend(result)
+                capped = list(result[:max_per_feed]) if max_per_feed and max_per_feed > 0 else list(result)
+                if max_per_feed and len(result) > len(capped):
+                    logger.info(f"Capped {urls[i]} from {len(result)} to {len(capped)} articles.")
+                articles.extend(capped)
         return articles

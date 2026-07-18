@@ -17,10 +17,19 @@ def _get_env_int(key: str, default: int) -> int:
 
 
 DEFAULT_RSS_FEEDS = (
+    # Research (high-volume — kept in check by RSS_MAX_PER_FEED + the per-source cap).
     "https://rss.arxiv.org/rss/cs.AI",  # arXiv Artificial Intelligence
     "https://rss.arxiv.org/rss/cs.LG",  # arXiv Machine Learning
+    # Industry news / press.
     "https://techcrunch.com/category/artificial-intelligence/feed/",  # TechCrunch AI
+    "https://venturebeat.com/category/ai/feed/",  # VentureBeat AI
+    "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",  # The Verge AI
+    "https://feeds.arstechnica.com/arstechnica/technology-lab",  # Ars Technica (tech/AI)
+    # Lab / product blogs.
     "https://machinelearning.apple.com/rss.xml",  # Apple Machine Learning Blog
+    "https://openai.com/blog/rss.xml",  # OpenAI Blog
+    "https://deepmind.google/blog/rss.xml",  # Google DeepMind Blog
+    "https://huggingface.co/blog/feed.xml",  # Hugging Face Blog
 )
 
 DEFAULT_KEYWORDS = (
@@ -79,7 +88,21 @@ class Config(BaseModel):
     )
 
     # Max stories to pull from Hacker News API
-    hn_stories_limit: int = Field(default_factory=lambda: _get_env_int("HN_STORIES_LIMIT", 50))
+    hn_stories_limit: int = Field(default_factory=lambda: _get_env_int("HN_STORIES_LIMIT", 100))
+
+    # Max articles taken from any single RSS feed per run. Stops a high-volume feed
+    # (arXiv publishes 50-150 papers/day) from flooding the candidate pool and crowding
+    # out news/blog sources before ranking.
+    rss_max_per_feed: int = Field(default_factory=lambda: _get_env_int("RSS_MAX_PER_FEED", 20))
+
+    # Max items any single publisher (grouped by URL domain) may occupy in the final
+    # top 10. The diversity gate backfills freed slots with the next-best items from
+    # under-represented sources, so the newsletter isn't 10/10 from one source (e.g. arXiv).
+    max_per_source: int = Field(default_factory=lambda: _get_env_int("MAX_PER_SOURCE", 3))
+
+    # How many ranked items the LLM/heuristic returns before the diversity trim. Must be
+    # comfortably larger than 10 so the diversity gate has backfill candidates.
+    llm_top_n: int = Field(default_factory=lambda: _get_env_int("LLM_TOP_N", 25))
 
     # Max candidates sent to the LLM in one request. Lower this if you hit free-tier
     # per-minute token limits; raise it (with a paid key) for broader coverage.

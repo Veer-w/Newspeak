@@ -91,8 +91,9 @@ class HeuristicRankingProvider(LLMProvider):
     primary LLM is rate-limited or quota-exhausted — just without LLM-written summaries.
     """
 
-    def __init__(self, keywords: Sequence[str]):
+    def __init__(self, keywords: Sequence[str], top_n: int = 10):
         self.keywords = keywords
+        self.top_n = top_n
 
     async def rank_and_summarize(self, articles: Sequence[Article]) -> Sequence[NewsItem]:
         if not articles:
@@ -111,5 +112,5 @@ class HeuristicRankingProvider(LLMProvider):
                 reason=f"Selected by heuristic relevance ranking from {art.source}.",
                 source=art.source,
             )
-            for art in scored[:10]
+            for art in scored[: self.top_n]
         ]

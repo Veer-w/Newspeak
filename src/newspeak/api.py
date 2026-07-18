@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import HTMLResponse
 from newspeak.config import load_config
-from newspeak.llm import build_llm_provider, select_top_candidates
+from newspeak.llm import build_llm_provider, select_top_candidates, enforce_source_diversity
 from newspeak.delivery import build_delivery_client, render_newsletter_html
 from newspeak.pipeline import ingest_all_sources, deduplicate_articles, run_newsletter_pipeline
 
@@ -56,7 +56,11 @@ async def preview_newsletter(
     top_news = await provider.rank_and_summarize(candidates)
     if not top_news:
         raise HTTPException(status_code=500, detail="LLM curation returned no items.")
-        
+
+    # Apply the same source-diversity gate + final top-10 trim the pipeline uses, so the
+    # preview matches what subscribers receive.
+    top_news = list(enforce_source_diversity(top_news, config.max_per_source))[:10]
+
     # 4. Render HTML response
     date_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
     html_content = render_newsletter_html(date_str, top_news)

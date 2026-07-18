@@ -4,7 +4,7 @@ import logging
 from typing import Sequence
 from newspeak.types import Article, NewsItem
 from newspeak.sources import aggregate_rss_feeds, fetch_hn_stories
-from newspeak.llm import LLMProvider, select_top_candidates
+from newspeak.llm import LLMProvider, select_top_candidates, enforce_source_diversity
 from newspeak.delivery import EmailDelivery
 from newspeak.config import Config
 
@@ -67,7 +67,7 @@ async def ingest_all_sources(config: Config) -> Sequence[Article]:
     """
     logger.info("Starting ingestion of all sources...")
 
-    rss_task = aggregate_rss_feeds(config.rss_feeds)
+    rss_task = aggregate_rss_feeds(config.rss_feeds, max_per_feed=config.rss_max_per_feed)
     hn_task = fetch_hn_stories(config.hn_stories_limit, config.keywords)
 
     results = await asyncio.gather(rss_task, hn_task, return_exceptions=True)
@@ -114,11 +114,16 @@ async def run_newsletter_pipeline(
     # Step 2.5: Heuristic pre-ranking — send the LLM the best N candidates (eases token load).
     candidates = select_top_candidates(curated_articles, config.keywords, config.llm_max_candidates)
 
-    # Step 3: LLM Evaluation (Ranking & Summarization)
+    # Step 3: LLM Evaluation (Ranking & Summarization) — returns up to llm_top_n items.
     top_news = await llm_provider.rank_and_summarize(candidates)
     if not top_news:
         logger.error("LLM failed to return ranked news. Pipeline aborted.")
         return False
+
+    # Step 3.5: Source diversity — cap items per publisher and trim to the final 10, so the
+    # digest isn't dominated by a single high-volume source (e.g. arXiv). This is the single
+    # authoritative diversity gate; it runs regardless of which LLM backend produced the list.
+    top_news = list(enforce_source_diversity(top_news, config.max_per_source))[:10]
 
     logger.info(f"Successfully curated top {len(top_news)} news items.")
 
