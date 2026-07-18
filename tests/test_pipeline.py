@@ -6,6 +6,7 @@ from newspeak.sources.rss import parse_feed_content, strip_html
 from newspeak.sources.hn import contains_keywords
 from newspeak.llm.provider import RankedItemSchema, build_news_items, LLMProvider, FallbackProvider
 from newspeak.llm.heuristic import score_article, select_top_candidates, HeuristicRankingProvider
+from newspeak.llm.diversity import source_domain, enforce_source_diversity
 
 def test_clean_text() -> None:
     assert clean_text("Hello, World!") == "hello world"
@@ -114,6 +115,59 @@ def test_contains_keywords_word_boundary() -> None:
     # Substrings of unrelated words must NOT match
     assert contains_keywords("Please check your email today", keywords) is False
     assert contains_keywords("Improving html storage layers", keywords) is False
+
+
+def test_contains_keywords_matches_body_text() -> None:
+    # HN filtering now feeds title + description; a keyword only in the body should match.
+    keywords = ["llm", "rag"]
+    combined = "Show HN: my weekend project. It's a RAG pipeline over my notes."
+    assert contains_keywords(combined, keywords) is True
+    # A non-AI title + body still correctly rejected.
+    assert contains_keywords("Show HN: a sourdough timer for my kitchen", keywords) is False
+
+
+def test_source_domain_groups_arxiv_feeds() -> None:
+    # Both arXiv feeds resolve to the same grouping key despite different feed subdomains.
+    assert source_domain("https://rss.arxiv.org/abs/2401.00001") == "arxiv.org"
+    assert source_domain("https://arxiv.org/abs/2402.99999") == "arxiv.org"
+    # www. and common feed subdomains are stripped.
+    assert source_domain("https://www.theverge.com/2026/ai") == "theverge.com"
+    assert source_domain("https://feeds.venturebeat.com/ai/x") == "venturebeat.com"
+    assert source_domain("https://openai.com/blog/gpt-6") == "openai.com"
+
+
+def _item(url: str, score: float) -> NewsItem:
+    return NewsItem(title=url, url=url, summary="s", score=score, reason="r", source=url)
+
+
+def test_enforce_source_diversity_caps_and_backfills() -> None:
+    # 5 arXiv (highest scored) + 2 others. Cap of 3/source must keep only 3 arXiv up front
+    # and surface the non-arXiv items, then backfill the deferred arXiv items at the tail.
+    items = [
+        _item("https://arxiv.org/a", 9.9),
+        _item("https://arxiv.org/b", 9.8),
+        _item("https://arxiv.org/c", 9.7),
+        _item("https://arxiv.org/d", 9.6),
+        _item("https://arxiv.org/e", 9.5),
+        _item("https://www.theverge.com/x", 8.0),
+        _item("https://openai.com/y", 7.5),
+    ]
+    result = list(enforce_source_diversity(items, max_per_source=3))
+
+    # Nothing is lost — deferred items backfill.
+    assert len(result) == 7
+    # The first 5 kept slots contain exactly 3 arXiv + the 2 distinct other sources.
+    top5_domains = [source_domain(it.url) for it in result[:5]]
+    assert top5_domains.count("arxiv.org") == 3
+    assert "theverge.com" in top5_domains
+    assert "openai.com" in top5_domains
+    # The two deferred arXiv items land at the tail.
+    assert [source_domain(it.url) for it in result[5:]] == ["arxiv.org", "arxiv.org"]
+
+
+def test_enforce_source_diversity_zero_cap_is_passthrough() -> None:
+    items = [_item("https://arxiv.org/a", 9.0), _item("https://arxiv.org/b", 8.0)]
+    assert list(enforce_source_diversity(items, max_per_source=0)) == items
 
 
 def test_build_news_items_maps_by_id_and_drops_out_of_range() -> None:

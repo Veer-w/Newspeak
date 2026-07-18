@@ -14,6 +14,7 @@ from newspeak.llm.heuristic import (
     select_top_candidates,
     score_article,
 )
+from newspeak.llm.diversity import source_domain, enforce_source_diversity
 from newspeak.llm.ollama import OllamaProvider
 
 logger = logging.getLogger(__name__)
@@ -29,19 +30,21 @@ def build_llm_provider(config: Config, mock: bool = False) -> LLMProvider:
     `mock=True` overrides everything with the offline MockLLMProvider.
     """
     if mock:
-        return MockLLMProvider()
+        return MockLLMProvider(top_n=config.llm_top_n)
 
     backend = (config.llm_backend or "gemini").strip().lower()
 
     if backend == "heuristic":
         logger.info("LLM backend: heuristic (LLM-free).")
-        return HeuristicRankingProvider(config.keywords)
+        return HeuristicRankingProvider(config.keywords, top_n=config.llm_top_n)
 
     if backend == "ollama":
         logger.info(f"LLM backend: local Ollama (model={config.ollama_model}), heuristic backup.")
         return FallbackProvider(
-            primary=OllamaProvider(model=config.ollama_model, host=config.ollama_host),
-            backup=HeuristicRankingProvider(config.keywords),
+            primary=OllamaProvider(
+                model=config.ollama_model, host=config.ollama_host, top_n=config.llm_top_n
+            ),
+            backup=HeuristicRankingProvider(config.keywords, top_n=config.llm_top_n),
         )
 
     # Default: Gemini, with the always-available heuristic as an automatic backup so the
@@ -53,8 +56,12 @@ def build_llm_provider(config: Config, mock: bool = False) -> LLMProvider:
         )
     logger.info("LLM backend: Gemini primary, heuristic backup.")
     return FallbackProvider(
-        primary=GeminiProvider(api_key=config.gemini_api_key, max_candidates=config.llm_max_candidates),
-        backup=HeuristicRankingProvider(config.keywords),
+        primary=GeminiProvider(
+            api_key=config.gemini_api_key,
+            max_candidates=config.llm_max_candidates,
+            top_n=config.llm_top_n,
+        ),
+        backup=HeuristicRankingProvider(config.keywords, top_n=config.llm_top_n),
     )
 
 
@@ -68,6 +75,8 @@ __all__ = [
     "build_llm_provider",
     "select_top_candidates",
     "score_article",
+    "source_domain",
+    "enforce_source_diversity",
     "build_news_items",
     "RankedItemSchema",
     "GeminiNewsRankingSchema",

@@ -32,11 +32,13 @@ class OllamaProvider(LLMProvider):
         host: str = "http://localhost:11434",
         max_candidates: int = OLLAMA_MAX_CANDIDATES,
         timeout: float = 300.0,
+        top_n: int = 10,
     ):
         self.model = model
         self.host = host.rstrip("/")
         self.max_candidates = max_candidates
         self.timeout = timeout
+        self.top_n = top_n
 
     async def rank_and_summarize(self, articles: Sequence[Article]) -> Sequence[NewsItem]:
         if not articles:
@@ -44,7 +46,9 @@ class OllamaProvider(LLMProvider):
             return []
 
         candidates = list(articles[: self.max_candidates])
-        user_content = build_ranking_prompt(candidates, max_desc_chars=OLLAMA_MAX_DESCRIPTION_CHARS)
+        user_content = build_ranking_prompt(
+            candidates, max_desc_chars=OLLAMA_MAX_DESCRIPTION_CHARS, top_n=self.top_n
+        )
 
         payload = {
             "model": self.model,
@@ -74,7 +78,7 @@ class OllamaProvider(LLMProvider):
 
             parsed = GeminiNewsRankingSchema.model_validate(json.loads(content))
             news_items = build_news_items(parsed.items, candidates)
-            return sorted(news_items, key=lambda x: x.score, reverse=True)[:10]
+            return sorted(news_items, key=lambda x: x.score, reverse=True)[: self.top_n]
 
         except httpx.HTTPError as e:
             logger.error(f"Failed to reach Ollama at {self.host} (is it running?): {e}")

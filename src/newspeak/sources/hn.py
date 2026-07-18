@@ -51,8 +51,8 @@ async def fetch_story(client: httpx.AsyncClient, story_id: int) -> Article | Non
         return None
 
 
-def contains_keywords(title: str, keywords: Sequence[str]) -> bool:
-    """Pure check: does the title contain any keyword as a whole word (case-insensitive)?
+def contains_keywords(text: str, keywords: Sequence[str]) -> bool:
+    """Pure check: does the text contain any keyword as a whole word (case-insensitive)?
 
     Uses word boundaries so short keywords like "ai"/"ml"/"rag" don't match substrings of
     unrelated words ("email", "html", "storage"). The compiled pattern is cached by the re
@@ -61,7 +61,7 @@ def contains_keywords(title: str, keywords: Sequence[str]) -> bool:
     if not keywords:
         return False
     pattern = "|".join(re.escape(kw) for kw in keywords)
-    return re.search(rf"\b(?:{pattern})\b", title, re.IGNORECASE) is not None
+    return re.search(rf"\b(?:{pattern})\b", text, re.IGNORECASE) is not None
 
 
 async def fetch_hn_stories(limit: int, keywords: Sequence[str]) -> Sequence[Article]:
@@ -92,9 +92,12 @@ async def fetch_hn_stories(limit: int, keywords: Sequence[str]) -> Sequence[Arti
                 if r is not None and not isinstance(r, BaseException)
             ]
 
+            # Match against title AND body text — an AI story is often only signalled in
+            # the post body (Ask-HN) or subtitle, not the headline, so title-only filtering
+            # dropped most of HN's AI content.
             relevant_stories = [
                 story for story in valid_stories
-                if contains_keywords(story.title, keywords)
+                if contains_keywords(f"{story.title} {story.description}", keywords)
             ]
 
             logger.info(f"Fetched {len(valid_stories)} HN stories, {len(relevant_stories)} are AI-related.")

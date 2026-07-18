@@ -35,20 +35,25 @@ MAX_DESCRIPTION_CHARS = 500       # trim long feed/abstract text (arXiv abstract
 _RETRYABLE_STATUS = (429, 503)    # rate-limited / model overloaded — safe to retry
 
 SYSTEM_INSTRUCTION = (
-    "You are a Senior Editor for a premier AI/ML newsletter. Your job is to select "
-    "the top 10 most technically significant, impactful, and 100% verified news developments "
-    "from the raw list of ingested articles provided.\n\n"
+    "You are a Senior Editor for a premier AI/ML newsletter. Your job is to select the most "
+    "significant, impactful, and 100% verified AI/ML developments from the raw list of ingested "
+    "articles provided, and to assemble a balanced, readable digest.\n\n"
     "Strict Guidelines:\n"
-    "1. Accuracy is paramount. Ensure the news is 100% true and based on actual technical developments, "
-    "releases, or scientific papers. Avoid clickbait, hype, speculative rumors, or promotional pieces.\n"
-    "2. Relevance: Filter out general tech news. Focus purely on machine learning, deep learning, NLP, "
-    "computer vision, generative models, hardware breakthroughs (e.g., TPUs/GPUs), and agentic workflows.\n"
-    "3. Deduplication: If multiple articles cover the same event, select the single best article with "
-    "the highest score and technical details, then discard the duplicates.\n"
-    "4. Output format: You must return up to 10 items in the requested JSON structure. For each item, "
-    "return the integer `id` of the source article exactly as given — never invent or alter URLs, "
-    "titles, or IDs.\n"
-    "5. Summary: Write a clear, dense, 2-sentence summary of the technical contribution. Do not fluff."
+    "1. Accuracy is paramount. Ensure the news is based on real developments — research papers, "
+    "model/product releases, or credible industry reporting. Avoid clickbait, hype, speculative "
+    "rumors, or purely promotional pieces.\n"
+    "2. Relevance: Filter out non-AI general tech news. Keep the full breadth of AI/ML: research "
+    "(ML, deep learning, NLP, computer vision, generative models), model and product launches, "
+    "hardware breakthroughs (e.g., TPUs/GPUs), agentic workflows, and notable AI industry or "
+    "community news. AI industry news is in scope — do not discard it in favor of papers.\n"
+    "3. Diversity: Assemble a MIX of content types and sources. Do not fill the list with research "
+    "papers, and do not let any single source or publisher dominate — favor variety across "
+    "papers, releases, and industry/community news so the reader gets a rounded picture of the day.\n"
+    "4. Deduplication: If multiple articles cover the same event, select the single best article "
+    "with the highest score and detail, then discard the duplicates.\n"
+    "5. Output format: Return the requested items in the JSON structure. For each item, return the "
+    "integer `id` of the source article exactly as given — never invent or alter URLs, titles, or IDs.\n"
+    "6. Summary: Write a clear, dense, 2-sentence summary of the development. Do not fluff."
 )
 
 
@@ -77,13 +82,23 @@ def format_candidates(candidates: Sequence[Article], max_desc_chars: int = MAX_D
     return "\n".join(blocks)
 
 
-def build_ranking_prompt(candidates: Sequence[Article], max_desc_chars: int = MAX_DESCRIPTION_CHARS) -> str:
-    """Pure: build the user prompt for ranking the given candidates."""
+def build_ranking_prompt(
+    candidates: Sequence[Article],
+    max_desc_chars: int = MAX_DESCRIPTION_CHARS,
+    top_n: int = 10,
+) -> str:
+    """Pure: build the user prompt for ranking the given candidates.
+
+    Asks for the top `top_n` items (a diversity gate downstream trims to the final 10, so
+    a larger `top_n` gives it backfill candidates from under-represented sources).
+    """
     return (
         f"Here is the list of candidates to rank and summarize:\n\n"
         f"{format_candidates(candidates, max_desc_chars)}\n\n"
-        "Please select the top 10 articles by their `id`, score them on a scale of 1.0 to 10.0, "
-        "write a summary and reason for each, and output the result in the specified structured schema."
+        f"Please select the top {top_n} articles by their `id`, score them on a scale of 1.0 to 10.0, "
+        "write a summary and reason for each, and output the result in the specified structured schema. "
+        "Aim for a diverse mix of sources and content types (research, releases, industry news) rather "
+        "than many entries of the same kind."
     )
 
 
@@ -135,6 +150,7 @@ class GeminiProvider(LLMProvider):
         max_candidates: int = DEFAULT_MAX_CANDIDATES,
         max_retries: int = 3,
         retry_base_delay: float = 10.0,
+        top_n: int = 10,
     ):
         if not api_key:
             raise ValueError("GEMINI_API_KEY must not be empty when constructing GeminiProvider.")
@@ -143,6 +159,7 @@ class GeminiProvider(LLMProvider):
         self.max_candidates = max_candidates
         self.max_retries = max_retries
         self.retry_base_delay = retry_base_delay
+        self.top_n = top_n
 
     async def rank_and_summarize(self, articles: Sequence[Article]) -> Sequence[NewsItem]:
         if not articles:
@@ -157,7 +174,7 @@ class GeminiProvider(LLMProvider):
                 f"Capping {len(articles)} candidates to {len(candidates)} for the LLM request (free-tier token budget)."
             )
 
-        user_content = build_ranking_prompt(candidates)
+        user_content = build_ranking_prompt(candidates, top_n=self.top_n)
 
         def call_gemini():
             return self.client.models.generate_content(
@@ -193,9 +210,10 @@ class GeminiProvider(LLMProvider):
                 # Map the LLM's ID-based ranking back onto the trusted source articles.
                 news_items = build_news_items(parsed_response.items, candidates)
 
-                # Sort by score descending and return top 10
+                # Sort by score descending and return the top N (the pipeline's diversity
+                # gate trims this to the final 10, backfilling under-represented sources).
                 sorted_items = sorted(news_items, key=lambda x: x.score, reverse=True)
-                return sorted_items[:10]
+                return sorted_items[: self.top_n]
 
             except APIError as e:
                 code = getattr(e, "code", None)
@@ -246,10 +264,13 @@ class FallbackProvider(LLMProvider):
 class MockLLMProvider(LLMProvider):
     """Mock LLM Provider for local development and testing without API costs."""
 
+    def __init__(self, top_n: int = 10):
+        self.top_n = top_n
+
     async def rank_and_summarize(self, articles: Sequence[Article]) -> Sequence[NewsItem]:
         logger.info("Mock LLM Provider: Mocking ranking and summarization...")
         mock_items = []
-        for i, art in enumerate(articles[:10]):
+        for i, art in enumerate(articles[: self.top_n]):
             mock_items.append(
                 NewsItem(
                     title=art.title,
