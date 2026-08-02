@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Newspeak curates the top AI/ML news each day: it ingests articles from RSS feeds and Hacker News, deduplicates them, uses Google Gemini to rank and summarize the best ~10, renders an HTML newsletter, and emails it to subscribers. It runs as a daily GitHub Actions cron job (`.github/workflows/newsletter.yml`, 6:00 AM UTC) and also exposes a FastAPI HTTP interface.
+Newspeak curates the top AI/ML news each day: it ingests articles from RSS feeds and Hacker News, deduplicates them (within a run *and* against previously sent stories), uses Google Gemini to rank and summarize the best few (`NEWSLETTER_SIZE`, default 7), renders an HTML newsletter, and emails it to subscribers. It runs as a GitHub Actions cron job (`.github/workflows/newsletter.yml`, every 2 days at 6:00 AM UTC) and also exposes a FastAPI HTTP interface.
 
 ## Commands
 
@@ -35,11 +35,12 @@ All config comes from environment variables, loaded via `python-dotenv` from a `
 
 The pipeline is a linear flow assembled from swappable, abstract-based components. `main.py` (CLI) and `api.py` (HTTP) are both thin entrypoints that select concrete implementations based on config/flags, then hand them to the same `run_newsletter_pipeline`.
 
-**Pipeline stages** (`pipeline.py`): `ingest_all_sources` → `deduplicate_articles` → `LLMProvider.rank_and_summarize` → `EmailDelivery.send_newsletter`.
+**Pipeline stages** (`pipeline.py`): `ingest_all_sources` → `deduplicate_articles` → `filter_new_articles` (cross-run) → `LLMProvider.rank_and_summarize` → `EmailDelivery.send_newsletter` → `record_sent` (cross-run).
 
 - **Ingestion** runs RSS and HN sources concurrently via `asyncio.gather(..., return_exceptions=True)` — one source failing never aborts the run. Blocking/sync SDK calls (Gemini, Resend, SMTP) are wrapped in `loop.run_in_executor` to stay non-blocking. Sources return raw `Article` objects.
-- **Deduplication** is pure logic: exact-URL dedup, then title-based Jaccard similarity (threshold 0.65). Near-duplicates keep the entry with the longer description.
-- **LLM ranking** (`llm/provider.py`) uses Gemini structured output (`response_schema`) to return `NewsItem`s; results are sorted by score and truncated to top 10. The LLM prompt *also* does its own relevance filtering and dedup — so both the pure dedup step and Gemini are curation layers.
+- **Deduplication** is pure logic: exact-URL dedup, then title-based Jaccard similarity (threshold 0.65). Near-duplicates keep the entry with the longer description. The Jaccard/`clean_text` helpers live in `text.py` (re-exported from `pipeline.py`).
+- **Cross-run dedup** (`history.py`): before ranking, `filter_new_articles` drops candidates already delivered in a prior run — matched by exact URL, or by a title Jaccard-similar (≥0.65) to a previously sent one. State persists in `sent_history.json` (path/retention via `HISTORY_FILE`/`HISTORY_RETENTION_DAYS`, default 30 days); the GitHub Actions workflow commits it back to the repo so it survives between ephemeral runs. Only a **real** successful delivery records history (`record_history=not dry_run`), so dry-runs/previews never poison it.
+- **LLM ranking** (`llm/provider.py`) uses Gemini structured output (`response_schema`) to return `NewsItem`s; results are sorted by score and truncated to `llm_top_n`, then a diversity gate trims to `NEWSLETTER_SIZE` (default 7). The LLM prompt *also* does its own relevance filtering and dedup — so both the pure dedup step and Gemini are curation layers.
 - **Delivery** (`delivery/email.py`) renders a single inline-CSS Jinja2 template (`HTML_TEMPLATE`) with autoescape on (LLM output is untrusted), then sends.
 
 **Provider abstraction pattern**: Both LLM and delivery are ABCs with multiple implementations.
@@ -54,3 +55,5 @@ The pipeline is a linear flow assembled from swappable, abstract-based component
 **Entrypoint note**: `main()` keeps `argparse` and `uvicorn.run()` (which manages its own event loop) *outside* `asyncio.run()`; only the pipeline path enters `asyncio.run()`. This avoids "event loop is already running" in `--serve` mode.
 
 **FastAPI endpoints** (`api.py`): `GET /health`, `GET /preview` (renders HTML directly, `?mock_llm=`), `POST /trigger` (runs full pipeline, `?mock_llm=&dry_run=`).
+
+**Do not commit 

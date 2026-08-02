@@ -62,7 +62,9 @@ async def _run_pipeline(args: argparse.Namespace) -> None:
         success = await run_newsletter_pipeline(
             config=config,
             llm_provider=llm_provider,
-            delivery_client=delivery_client
+            delivery_client=delivery_client,
+            # Never record a dry-run's items into the sent-history — only real deliveries.
+            record_history=not args.dry_run,
         )
         if not success:
             logger.error("Pipeline completed with errors.")

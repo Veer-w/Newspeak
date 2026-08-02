@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse
 from newspeak.config import load_config
 from newspeak.llm import build_llm_provider, select_top_candidates, enforce_source_diversity
 from newspeak.delivery import build_delivery_client, render_newsletter_html
+from newspeak.history import load_history, prune_history, filter_new_articles
 from newspeak.pipeline import ingest_all_sources, deduplicate_articles, run_newsletter_pipeline
 
 logger = logging.getLogger("newspeak.api")
@@ -43,8 +44,12 @@ async def preview_newsletter(
     if not raw_articles:
         raise HTTPException(status_code=500, detail="Failed to ingest articles from feeds.")
         
-    # 2. Deduplication
+    # 2. Deduplication (in-run, then cross-run so the preview matches what subscribers get)
     curated_candidates = deduplicate_articles(raw_articles)
+    history = prune_history(load_history(config.history_file), config.history_retention_days)
+    curated_candidates = filter_new_articles(curated_candidates, history)
+    if not curated_candidates:
+        raise HTTPException(status_code=500, detail="No fresh articles — all were sent in previous runs.")
 
     # 3. Heuristic pre-ranking + LLM curator selection
     try:
@@ -59,7 +64,7 @@ async def preview_newsletter(
 
     # Apply the same source-diversity gate + final top-10 trim the pipeline uses, so the
     # preview matches what subscribers receive.
-    top_news = list(enforce_source_diversity(top_news, config.max_per_source))[:10]
+    top_news = list(enforce_source_diversity(top_news, config.max_per_source))[: config.newsletter_size]
 
     # 4. Render HTML response
     date_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
@@ -98,7 +103,9 @@ async def trigger_pipeline(
         success = await run_newsletter_pipeline(
             config=config,
             llm_provider=provider,
-            delivery_client=delivery_client
+            delivery_client=delivery_client,
+            # A dry-run trigger must not record items into the sent-history.
+            record_history=not dry_run,
         )
         if not success:
             raise HTTPException(status_code=500, detail="Pipeline completed with errors.")

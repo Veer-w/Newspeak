@@ -101,8 +101,18 @@ class Config(BaseModel):
     max_per_source: int = Field(default_factory=lambda: _get_env_int("MAX_PER_SOURCE", 3))
 
     # How many ranked items the LLM/heuristic returns before the diversity trim. Must be
-    # comfortably larger than 10 so the diversity gate has backfill candidates.
+    # comfortably larger than the final newsletter size so the diversity gate has backfill.
     llm_top_n: int = Field(default_factory=lambda: _get_env_int("LLM_TOP_N", 25))
+
+    # Final number of articles in the delivered newsletter (after the diversity trim).
+    newsletter_size: int = Field(default_factory=lambda: _get_env_int("NEWSLETTER_SIZE", 7))
+
+    # Cross-run dedup: path to the JSON file remembering which articles were already sent,
+    # and how many days to remember them. Prevents the same story (by URL, or by a similar
+    # title from a different source) reappearing in later runs. The GitHub Actions workflow
+    # commits this file back to the repo so it persists between scheduled runs.
+    history_file: str = Field(default_factory=lambda: os.getenv("HISTORY_FILE", "sent_history.json"))
+    history_retention_days: int = Field(default_factory=lambda: _get_env_int("HISTORY_RETENTION_DAYS", 30))
 
     # Max candidates sent to the LLM in one request. Lower this if you hit free-tier
     # per-minute token limits; raise it (with a paid key) for broader coverage.

@@ -1,6 +1,6 @@
 # Newspeak: Daily AI/ML News Digest & Newsletter
 
-Newspeak is a modular, functional Python application designed to automatically curate, verify, rank, and summarize the top 10 AI and Machine Learning news stories every morning. It aggregates data from multiple feed sources, uses Google Gemini to filter and rank stories, and sends a highly polished HTML email to a list of subscribers.
+Newspeak is a modular, functional Python application designed to automatically curate, verify, rank, and summarize the top AI and Machine Learning news stories (7 by default, via `NEWSLETTER_SIZE`) each run. It aggregates data from multiple feed sources, uses Google Gemini to filter and rank stories, and sends a highly polished HTML email to a list of subscribers.
 
 The project runs as a serverless cron job via GitHub Actions, completely free of charge.
 
@@ -8,7 +8,8 @@ The project runs as a serverless cron job via GitHub Actions, completely free of
 
 - **Automated Ingestion**: Concurrently aggregates news from standard RSS/Atom feeds (arXiv, Hugging Face, TechCrunch AI, Apple ML) and Hacker News.
 - **Jaccard Deduplication**: Compares and deduplicates overlapping articles from different sources based on title similarity.
-- **AI Ranking & Curated Summaries**: Uses Gemini (`gemini-2.5-flash`) to rank relevance and write dense 2-sentence impact summaries.
+- **Cross-run history**: Remembers previously sent stories in `sent_history.json` (committed back by the workflow) and skips them, so the same news doesn't reappear across newsletters. Tune via `HISTORY_RETENTION_DAYS` (default 30).
+- **AI Ranking & Curated Summaries**: Uses Gemini (`gemini-2.5-flash`) to rank relevance and write dense 2-sentence impact summaries, revealed via a per-article **Summary** toggle in the email.
 - **Polished HTML Styling**: Generates a visually stunning email newsletter utilizing a premium slate/indigo responsive card design.
 - **Flexible Delivery**: Supports sending via **Resend API** or standard **SMTP** (e.g. Gmail, SendGrid SMTP).
 - **Free Deployment**: Pre-configured GitHub Actions workflow runs the job every morning.

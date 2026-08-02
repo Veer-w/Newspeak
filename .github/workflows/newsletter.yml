@@ -10,7 +10,10 @@ on:
 jobs:
   run-newsletter:
     runs-on: ubuntu-latest
-    
+    # Needed so the workflow can commit the updated sent-article history back to the repo.
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -45,3 +48,18 @@ jobs:
           PYTHONPATH: src
         run: |
           uv run python src/newspeak/main.py
+
+      - name: Persist sent-article history
+        # Runs even after a failed pipeline so a partial history update isn't lost, but
+        # only commits when sent_history.json actually changed.
+        if: always()
+        run: |
+          if [[ -n "$(git status --porcelain sent_history.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add sent_history.json
+            git commit -m "chore: update sent-article history"
+            git push
+          else
+            echo "No sent-article history changes to commit."
+          fi

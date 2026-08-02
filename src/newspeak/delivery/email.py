@@ -117,6 +117,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             color: #334155;
             margin: 12px 0;
         }
+        .summary-toggle { margin: 12px 0; }
+        .summary-button {
+            display: inline-block;
+            cursor: pointer;
+            list-style: none;                 /* hide default marker (Firefox/others) */
+            background-color: #eef2ff;
+            color: #4f46e5;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            user-select: none;
+        }
+        .summary-button::-webkit-details-marker { display: none; } /* hide Safari/Chrome marker */
+        .summary-toggle[open] .summary-button { margin-bottom: 8px; }
+        .summary-toggle .summary { margin-top: 0; }  /* summary div already has margins */
         .reason-box {
             background-color: #faf5ff;
             border-left: 3px solid #a855f7;
@@ -183,7 +199,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 {% endif %}
             </div>
 
-            <div class="summary">{{ item.summary }}</div>
+            <details class="summary-toggle">
+                <summary class="summary-button">Summary</summary>
+                <div class="summary">{{ item.summary }}</div>
+            </details>
 
             <div class="reason-box">
                 <p><strong>Impact:</strong> {{ item.reason }}</p>

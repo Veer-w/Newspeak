@@ -7,22 +7,12 @@ from newspeak.sources import aggregate_rss_feeds, fetch_hn_stories
 from newspeak.llm import LLMProvider, select_top_candidates, enforce_source_diversity
 from newspeak.delivery import EmailDelivery
 from newspeak.config import Config
+# Re-exported here so `from newspeak.pipeline import clean_text, get_jaccard_similarity`
+# keeps working; the definitions live in newspeak.text (also used by newspeak.history).
+from newspeak.text import clean_text, get_jaccard_similarity
+from newspeak.history import load_history, prune_history, filter_new_articles, record_sent
 
 logger = logging.getLogger(__name__)
-
-
-def clean_text(text: str) -> str:
-    """Helper to clean titles/descriptions for similarity matching."""
-    return "".join(c for c in text.lower() if c.isalnum() or c.isspace())
-
-
-def get_jaccard_similarity(text1: str, text2: str) -> float:
-    """Pure Jaccard Similarity calculation between two text strings."""
-    words1 = set(clean_text(text1).split())
-    words2 = set(clean_text(text2).split())
-    if not words1 or not words2:
-        return 0.0
-    return len(words1 & words2) / len(words1 | words2)
 
 
 def deduplicate_articles(articles: Sequence[Article], similarity_threshold: float = 0.65) -> Sequence[Article]:
@@ -93,7 +83,8 @@ async def ingest_all_sources(config: Config) -> Sequence[Article]:
 async def run_newsletter_pipeline(
     config: Config,
     llm_provider: LLMProvider,
-    delivery_client: EmailDelivery
+    delivery_client: EmailDelivery,
+    record_history: bool = True,
 ) -> bool:
     """
     Coordinates the entire end-to-end pipeline:
@@ -111,6 +102,15 @@ async def run_newsletter_pipeline(
     curated_articles = deduplicate_articles(raw_articles)
     logger.info(f"Deduplicated raw list down to {len(curated_articles)} unique candidates.")
 
+    # Step 2.25: Cross-run dedup — drop stories already sent in a previous run so the same
+    # news doesn't reappear across newsletters. Done before ranking so the LLM only ever
+    # sees (and spends tokens on) fresh candidates.
+    history = prune_history(load_history(config.history_file), config.history_retention_days)
+    curated_articles = filter_new_articles(curated_articles, history)
+    if not curated_articles:
+        logger.error("Every candidate was already sent in a previous run — nothing new to send.")
+        return False
+
     # Step 2.5: Heuristic pre-ranking — send the LLM the best N candidates (eases token load).
     candidates = select_top_candidates(curated_articles, config.keywords, config.llm_max_candidates)
 
@@ -120,10 +120,10 @@ async def run_newsletter_pipeline(
         logger.error("LLM failed to return ranked news. Pipeline aborted.")
         return False
 
-    # Step 3.5: Source diversity — cap items per publisher and trim to the final 10, so the
-    # digest isn't dominated by a single high-volume source (e.g. arXiv). This is the single
-    # authoritative diversity gate; it runs regardless of which LLM backend produced the list.
-    top_news = list(enforce_source_diversity(top_news, config.max_per_source))[:10]
+    # Step 3.5: Source diversity — cap items per publisher and trim to the final newsletter
+    # size, so the digest isn't dominated by a single high-volume source (e.g. arXiv). This
+    # is the single authoritative diversity gate; it runs regardless of LLM backend.
+    top_news = list(enforce_source_diversity(top_news, config.max_per_source))[: config.newsletter_size]
 
     logger.info(f"Successfully curated top {len(top_news)} news items.")
 
@@ -136,6 +136,10 @@ async def run_newsletter_pipeline(
     )
 
     if success:
+        # Step 5: Only after a real, successful delivery do we remember these items, so a
+        # dry-run/preview never poisons the history and a failed send can be safely retried.
+        if record_history:
+            record_sent(config.history_file, top_news, config.history_retention_days)
         logger.info("Newspeak newsletter pipeline completed successfully!")
     else:
         logger.error("Newspeak newsletter delivery failed.")
