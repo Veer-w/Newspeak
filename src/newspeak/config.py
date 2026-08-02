@@ -101,8 +101,18 @@ class Config(BaseModel):
     max_per_source: int = Field(default_factory=lambda: _get_env_int("MAX_PER_SOURCE", 3))
 
     # How many ranked items the LLM/heuristic returns before the diversity trim. Must be
-    # comfortably larger than 10 so the diversity gate has backfill candidates.
+    # comfortably larger than the final newsletter size so the diversity gate has backfill.
     llm_top_n: int = Field(default_factory=lambda: _get_env_int("LLM_TOP_N", 25))
+
+    # Final number of articles in the delivered newsletter (after the diversity trim).
+    newsletter_size: int = Field(default_factory=lambda: _get_env_int("NEWSLETTER_SIZE", 7))
+
+    # Cross-run dedup: path to the JSON file remembering which articles were already sent,
+    # and how many days to remember them. Prevents the same story (by URL, or by a similar
+    # title from a different source) reappearing in later runs. The GitHub Actions workflow
+    # commits this file back to the repo so it persists between scheduled runs.
+    history_file: str = Field(default_factory=lambda: os.getenv("HISTORY_FILE", "sent_history.json"))
+    history_retention_days: int = Field(default_factory=lambda: _get_env_int("HISTORY_RETENTION_DAYS", 30))
 
     # Max candidates sent to the LLM in one request. Lower this if you hit free-tier
     # per-minute token limits; raise it (with a paid key) for broader coverage.
@@ -115,6 +125,27 @@ class Config(BaseModel):
     # Local Ollama settings (only used when LLM_BACKEND=ollama; intended for local runs).
     ollama_model: str = Field(default_factory=lambda: os.getenv("OLLAMA_MODEL", "llama3.2"))
     ollama_host: str = Field(default_factory=lambda: os.getenv("OLLAMA_HOST", "http://localhost:11434"))
+
+    # Click-through tracking (opt-in). Everything below is inert until TRACKING_BASE_URL
+    # is set: article links render raw, no stats are fetched, and ranking is unchanged.
+    # TRACKING_BASE_URL is the deployed Cloudflare Worker origin (e.g.
+    # "https://newspeak-tracker.<subdomain>.workers.dev"). TRACKING_SECRET signs links
+    # (must match the Worker's SIGNING_SECRET); TRACKING_STATS_TOKEN guards /stats.
+    tracking_base_url: str = Field(default_factory=lambda: os.getenv("TRACKING_BASE_URL", "").rstrip("/"))
+    tracking_secret: str = Field(default_factory=lambda: os.getenv("TRACKING_SECRET", ""))
+    tracking_stats_token: str = Field(default_factory=lambda: os.getenv("TRACKING_STATS_TOKEN", ""))
+
+    # Where the learned per-source reputation lives (committed back by the workflow), and
+    # the per-run decay applied to accumulated clicks/sends so recent behavior dominates.
+    reputation_file: str = Field(default_factory=lambda: os.getenv("REPUTATION_FILE", "source_reputation.json"))
+    reputation_decay: float = Field(
+        default_factory=lambda: float(os.getenv("REPUTATION_DECAY", "") or "0.9")
+    )
+
+    @property
+    def tracking_enabled(self) -> bool:
+        """Tracking is active only when a Worker origin and signing secret are both set."""
+        return bool(self.tracking_base_url and self.tracking_secret)
 
 
 def load_config() -> Config:

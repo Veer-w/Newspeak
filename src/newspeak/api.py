@@ -5,6 +5,8 @@ from fastapi.responses import HTMLResponse
 from newspeak.config import load_config
 from newspeak.llm import build_llm_provider, select_top_candidates, enforce_source_diversity
 from newspeak.delivery import build_delivery_client, render_newsletter_html
+from newspeak.history import load_history, prune_history, filter_new_articles
+from newspeak.tracking import load_reputation, reputation_weights, reputation_bonus, tracking_urls_for
 from newspeak.pipeline import ingest_all_sources, deduplicate_articles, run_newsletter_pipeline
 
 logger = logging.getLogger("newspeak.api")
@@ -43,8 +45,12 @@ async def preview_newsletter(
     if not raw_articles:
         raise HTTPException(status_code=500, detail="Failed to ingest articles from feeds.")
         
-    # 2. Deduplication
+    # 2. Deduplication (in-run, then cross-run so the preview matches what subscribers get)
     curated_candidates = deduplicate_articles(raw_articles)
+    history = prune_history(load_history(config.history_file), config.history_retention_days)
+    curated_candidates = filter_new_articles(curated_candidates, history)
+    if not curated_candidates:
+        raise HTTPException(status_code=500, detail="No fresh articles — all were sent in previous runs.")
 
     # 3. Heuristic pre-ranking + LLM curator selection
     try:
@@ -52,18 +58,23 @@ async def preview_newsletter(
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    candidates = select_top_candidates(curated_candidates, config.keywords, config.llm_max_candidates)
+    # Mirror the pipeline's reputation-aware ranking so the preview matches delivery.
+    weights = reputation_weights(load_reputation(config.reputation_file)) if config.tracking_enabled else {}
+    candidates = select_top_candidates(curated_candidates, config.keywords, config.llm_max_candidates, weights)
     top_news = await provider.rank_and_summarize(candidates)
     if not top_news:
         raise HTTPException(status_code=500, detail="LLM curation returned no items.")
 
-    # Apply the same source-diversity gate + final top-10 trim the pipeline uses, so the
-    # preview matches what subscribers receive.
-    top_news = list(enforce_source_diversity(top_news, config.max_per_source))[:10]
+    if weights:
+        top_news = sorted(top_news, key=lambda it: it.score + reputation_bonus(it.url, weights), reverse=True)
 
-    # 4. Render HTML response
+    # Apply the same source-diversity gate + final size trim the pipeline uses, so the
+    # preview matches what subscribers receive.
+    top_news = list(enforce_source_diversity(top_news, config.max_per_source))[: config.newsletter_size]
+
+    # 4. Render HTML response (with tracked links when tracking is enabled)
     date_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
-    html_content = render_newsletter_html(date_str, top_news)
+    html_content = render_newsletter_html(date_str, top_news, tracking_urls_for(top_news, config))
     return HTMLResponse(content=html_content)
 
 
@@ -98,7 +109,9 @@ async def trigger_pipeline(
         success = await run_newsletter_pipeline(
             config=config,
             llm_provider=provider,
-            delivery_client=delivery_client
+            delivery_client=delivery_client,
+            # A dry-run trigger must not record items into the sent-history.
+            record_history=not dry_run,
         )
         if not success:
             raise HTTPException(status_code=500, detail="Pipeline completed with errors.")

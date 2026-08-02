@@ -1,6 +1,6 @@
 # Newspeak: Daily AI/ML News Digest & Newsletter
 
-Newspeak is a modular, functional Python application designed to automatically curate, verify, rank, and summarize the top 10 AI and Machine Learning news stories every morning. It aggregates data from multiple feed sources, uses Google Gemini to filter and rank stories, and sends a highly polished HTML email to a list of subscribers.
+Newspeak is a modular, functional Python application designed to automatically curate, verify, rank, and summarize the top AI and Machine Learning news stories (7 by default, via `NEWSLETTER_SIZE`) each run. It aggregates data from multiple feed sources, uses Google Gemini to filter and rank stories, and sends a highly polished HTML email to a list of subscribers.
 
 The project runs as a serverless cron job via GitHub Actions, completely free of charge.
 
@@ -8,7 +8,8 @@ The project runs as a serverless cron job via GitHub Actions, completely free of
 
 - **Automated Ingestion**: Concurrently aggregates news from standard RSS/Atom feeds (arXiv, Hugging Face, TechCrunch AI, Apple ML) and Hacker News.
 - **Jaccard Deduplication**: Compares and deduplicates overlapping articles from different sources based on title similarity.
-- **AI Ranking & Curated Summaries**: Uses Gemini (`gemini-2.5-flash`) to rank relevance and write dense 2-sentence impact summaries.
+- **Cross-run history**: Remembers previously sent stories in `sent_history.json` (committed back by the workflow) and skips them, so the same news doesn't reappear across newsletters. Tune via `HISTORY_RETENTION_DAYS` (default 30).
+- **AI Ranking & Curated Summaries**: Uses Gemini (`gemini-2.5-flash`) to rank relevance and write dense 2-sentence impact summaries, revealed via a per-article **Summary** toggle in the email.
 - **Polished HTML Styling**: Generates a visually stunning email newsletter utilizing a premium slate/indigo responsive card design.
 - **Flexible Delivery**: Supports sending via **Resend API** or standard **SMTP** (e.g. Gmail, SendGrid SMTP).
 - **Free Deployment**: Pre-configured GitHub Actions workflow runs the job every morning.
@@ -91,6 +92,46 @@ ollama pull llama3.2
 # Preview the newsletter using the local model (no Gemini quota spent)
 LLM_BACKEND=ollama PYTHONPATH=src uv run python src/newspeak/main.py --dry-run
 ```
+
+---
+
+## Click-Through Feedback (optional)
+
+Newspeak can learn which **sources** readers actually click and gently nudge future
+ranking toward them. It's **fully opt-in** — until you set `TRACKING_BASE_URL`, links
+render normally and ranking is unchanged.
+
+How it works: a tiny free **Cloudflare Worker** (`worker/`) rewrites each article link to
+redirect through itself, records the click in Cloudflare KV, and forwards the reader to
+the real article. Each run the pipeline pulls the Worker's cumulative counts, folds them
+into a decayed per-source click-through rate in `source_reputation.json` (committed back
+by the workflow — no database), and applies a small bounded score bonus. Signals are
+noisy (email prefetchers), so reputation only breaks near-ties; Gemini's relevance
+judgment stays dominant.
+
+**One-time setup:**
+
+```bash
+npm install -g wrangler && wrangler login
+cd worker
+wrangler kv namespace create CLICKS         # paste the printed id into wrangler.toml
+wrangler secret put SIGNING_SECRET          # a random string == TRACKING_SECRET below
+wrangler secret put STATS_TOKEN             # a random string == TRACKING_STATS_TOKEN below
+wrangler deploy                             # note the https://…workers.dev URL
+```
+
+Then set these env vars (locally in `.env`, or as GitHub Actions **variable**
+`TRACKING_BASE_URL` + **secrets** `TRACKING_SECRET`/`TRACKING_STATS_TOKEN`):
+
+```env
+TRACKING_BASE_URL=https://newspeak-tracker.<subdomain>.workers.dev
+TRACKING_SECRET=<same as the Worker's SIGNING_SECRET>
+TRACKING_STATS_TOKEN=<same as the Worker's STATS_TOKEN>
+# REPUTATION_DECAY=0.9   # optional: per-run decay on accumulated clicks/sends
+```
+
+Keep `TRACKING_SECRET` stable — rotating it invalidates the tracked links in emails
+already delivered. Click tracking is best paired with a **verified sending domain**.
 
 ---
 
