@@ -19,8 +19,11 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark">
     <title>Newspeak Daily AI/ML Digest</title>
     <style>
+        :root { color-scheme: light dark; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f8fafc;
@@ -35,29 +38,35 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             padding: 20px 10px;
         }
         .header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            /* Clean solid-black header: crisp and premium in light mode, and solid dark
+               sections survive email dark-mode inversion far better than the old
+               white-on-purple gradient (which clients mangled into unreadable dark text). */
+            background-color: #0a0a0a;
+            border: 1px solid #1f2937;
             border-radius: 16px;
             padding: 40px 30px;
-            color: white;
+            color: #ffffff;
             text-align: center;
             margin-bottom: 24px;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
         }
         .header h1 {
             margin: 0;
             font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.025em;
+            color: #ffffff;
         }
         .header p {
             margin: 8px 0 0 0;
             font-size: 16px;
-            color: #e0e7ff;
+            color: #cbd5e1;
             font-weight: 500;
         }
         .date {
             display: inline-block;
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.12);
+            color: #e2e8f0;
             padding: 4px 12px;
             border-radius: 9999px;
             font-size: 13px;
