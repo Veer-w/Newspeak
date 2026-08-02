@@ -11,6 +11,16 @@ from newspeak.config import Config
 # keeps working; the definitions live in newspeak.text (also used by newspeak.history).
 from newspeak.text import clean_text, get_jaccard_similarity
 from newspeak.history import load_history, prune_history, filter_new_articles, record_sent
+from newspeak.tracking import (
+    load_reputation,
+    reputation_weights,
+    reputation_bonus,
+    tracking_urls_for,
+    fetch_click_counts,
+    update_reputation,
+    save_reputation,
+    count_by_source,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -111,14 +121,25 @@ async def run_newsletter_pipeline(
         logger.error("Every candidate was already sent in a previous run — nothing new to send.")
         return False
 
+    # Click-through reputation (opt-in): load last run's learned per-source weights so
+    # they can nudge ranking. Weights lag one run — a slow, deliberately gentle signal.
+    reputation = load_reputation(config.reputation_file) if config.tracking_enabled else None
+    weights = reputation_weights(reputation) if reputation else {}
+
     # Step 2.5: Heuristic pre-ranking — send the LLM the best N candidates (eases token load).
-    candidates = select_top_candidates(curated_articles, config.keywords, config.llm_max_candidates)
+    candidates = select_top_candidates(curated_articles, config.keywords, config.llm_max_candidates, weights)
 
     # Step 3: LLM Evaluation (Ranking & Summarization) — returns up to llm_top_n items.
     top_news = await llm_provider.rank_and_summarize(candidates)
     if not top_news:
         logger.error("LLM failed to return ranked news. Pipeline aborted.")
         return False
+
+    # Step 3.25: Reputation re-sort — nudge the LLM's order by each item's source weight
+    # before the diversity trim, so reader-preferred sources win near-ties for the final
+    # slots. The bounded bonus keeps Gemini's relevance judgment dominant.
+    if weights:
+        top_news = sorted(top_news, key=lambda it: it.score + reputation_bonus(it.url, weights), reverse=True)
 
     # Step 3.5: Source diversity — cap items per publisher and trim to the final newsletter
     # size, so the digest isn't dominated by a single high-volume source (e.g. arXiv). This
@@ -127,12 +148,14 @@ async def run_newsletter_pipeline(
 
     logger.info(f"Successfully curated top {len(top_news)} news items.")
 
-    # Step 4: Formatting & Delivery — use UTC to match the daily UTC cron schedule.
+    # Step 4: Formatting & Delivery — use UTC to match the daily UTC cron schedule. Links
+    # are wrapped in signed tracking redirects when tracking is enabled (None otherwise).
     date_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
     success = await delivery_client.send_newsletter(
         date_str=date_str,
         items=top_news,
-        recipients=config.recipients
+        recipients=config.recipients,
+        tracking_urls=tracking_urls_for(top_news, config),
     )
 
     if success:
@@ -140,6 +163,13 @@ async def run_newsletter_pipeline(
         # dry-run/preview never poisons the history and a failed send can be safely retried.
         if record_history:
             record_sent(config.history_file, top_news, config.history_retention_days)
+            # Fold this run's clicks (from the tracking Worker) + sends into reputation.
+            if config.tracking_enabled and reputation is not None:
+                click_totals = await fetch_click_counts(config)
+                updated = update_reputation(
+                    reputation, click_totals, count_by_source(top_news), config.reputation_decay
+                )
+                save_reputation(config.reputation_file, updated)
         logger.info("Newspeak newsletter pipeline completed successfully!")
     else:
         logger.error("Newspeak newsletter delivery failed.")

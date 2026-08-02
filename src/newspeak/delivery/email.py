@@ -185,7 +185,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         {% for item in items %}
         <div class="card">
             <div class="title">
-                <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+                <a href="{{ tracking_urls[loop.index0] if tracking_urls else item.url }}" target="_blank">{{ item.title }}</a>
             </div>
 
             <div class="metadata">
@@ -210,7 +210,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
             <div class="source-link">
                 <span class="label">Source</span>
-                <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">{{ item.source }} — read the original at {{ item.url | domain }} &rarr;</a>
+                <a href="{{ tracking_urls[loop.index0] if tracking_urls else item.url }}" target="_blank" rel="noopener noreferrer">{{ item.source }} — read the original at {{ item.url | domain }} &rarr;</a>
             </div>
         </div>
         {% endfor %}
@@ -239,17 +239,32 @@ _JINJA_ENV.filters["domain"] = _domain
 _NEWSLETTER_TEMPLATE = _JINJA_ENV.from_string(HTML_TEMPLATE)
 
 
-def render_newsletter_html(date_str: str, items: Sequence[NewsItem]) -> str:
-    """Renders the Jinja2 HTML email template with autoescape. (Pure function)"""
-    return _NEWSLETTER_TEMPLATE.render(date=date_str, items=items)
+def render_newsletter_html(
+    date_str: str,
+    items: Sequence[NewsItem],
+    tracking_urls: Sequence[str] | None = None,
+) -> str:
+    """Renders the Jinja2 HTML email template with autoescape. (Pure function)
+
+    `tracking_urls`, when provided, must align 1:1 with `items`; each replaces the
+    article's raw `href` with a signed click-tracking redirect (visible link text still
+    shows the real destination). None → links render raw (tracking disabled).
+    """
+    return _NEWSLETTER_TEMPLATE.render(date=date_str, items=items, tracking_urls=tracking_urls)
 
 
 class EmailDelivery(ABC):
     """Abstract Base Class for email delivery."""
 
     @abstractmethod
-    async def send_newsletter(self, date_str: str, items: Sequence[NewsItem], recipients: Sequence[str]) -> bool:
-        """Sends the newsletter to the given recipients."""
+    async def send_newsletter(
+        self,
+        date_str: str,
+        items: Sequence[NewsItem],
+        recipients: Sequence[str],
+        tracking_urls: Sequence[str] | None = None,
+    ) -> bool:
+        """Sends the newsletter to the given recipients (optionally with tracked links)."""
         pass
 
 
@@ -260,12 +275,18 @@ class ResendDelivery(EmailDelivery):
         self.api_key = api_key
         self.sender = sender
 
-    async def send_newsletter(self, date_str: str, items: Sequence[NewsItem], recipients: Sequence[str]) -> bool:
+    async def send_newsletter(
+        self,
+        date_str: str,
+        items: Sequence[NewsItem],
+        recipients: Sequence[str],
+        tracking_urls: Sequence[str] | None = None,
+    ) -> bool:
         if not recipients:
             logger.warning("No recipients specified for Resend delivery.")
             return False
 
-        html_content = render_newsletter_html(date_str, items)
+        html_content = render_newsletter_html(date_str, items, tracking_urls)
         subject = f"Newspeak Daily: Top AI/ML News ({date_str})"
 
         # Capture the api_key locally to avoid closure over mutable self in executor
@@ -310,12 +331,18 @@ class SMTPDelivery(EmailDelivery):
         self.password = password
         self.from_addr = from_addr
 
-    async def send_newsletter(self, date_str: str, items: Sequence[NewsItem], recipients: Sequence[str]) -> bool:
+    async def send_newsletter(
+        self,
+        date_str: str,
+        items: Sequence[NewsItem],
+        recipients: Sequence[str],
+        tracking_urls: Sequence[str] | None = None,
+    ) -> bool:
         if not recipients:
             logger.warning("No recipients specified for SMTP delivery.")
             return False
 
-        html_content = render_newsletter_html(date_str, items)
+        html_content = render_newsletter_html(date_str, items, tracking_urls)
         subject = f"Newspeak Daily: Top AI/ML News ({date_str})"
 
         try:
@@ -360,10 +387,16 @@ class MockDelivery(EmailDelivery):
     def __init__(self, output_path: str = "last_newsletter.html"):
         self.output_path = Path(output_path)
 
-    async def send_newsletter(self, date_str: str, items: Sequence[NewsItem], recipients: Sequence[str]) -> bool:
+    async def send_newsletter(
+        self,
+        date_str: str,
+        items: Sequence[NewsItem],
+        recipients: Sequence[str],
+        tracking_urls: Sequence[str] | None = None,
+    ) -> bool:
         logger.info(f"Mock Delivery: Outputting email for {len(recipients)} recipients to {self.output_path.absolute()}")
         try:
-            html_content = render_newsletter_html(date_str, items)
+            html_content = render_newsletter_html(date_str, items, tracking_urls)
             # Always specify utf-8 to handle Unicode article titles correctly
             self.output_path.write_text(html_content, encoding="utf-8")
             logger.info("Mock newsletter file written successfully.")

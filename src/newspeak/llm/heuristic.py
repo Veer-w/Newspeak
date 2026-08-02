@@ -1,8 +1,9 @@
 import re
 import logging
-from typing import Sequence
+from typing import Mapping, Sequence
 from newspeak.types import Article, NewsItem
 from newspeak.llm.provider import LLMProvider, _truncate
+from newspeak.llm.diversity import source_domain
 
 logger = logging.getLogger(__name__)
 
@@ -23,11 +24,16 @@ def _keyword_hits(text: str, keywords: Sequence[str]) -> int:
     return len(set(m.group(0).lower() for m in re.finditer(rf"\b(?:{pattern})\b", text, re.IGNORECASE)))
 
 
-def score_article(article: Article, keywords: Sequence[str]) -> float:
+def score_article(
+    article: Article,
+    keywords: Sequence[str],
+    reputation: Mapping[str, float] | None = None,
+) -> float:
     """Pure heuristic relevance score (1.0–10.0) used for pre-ranking and as an LLM-free backup.
 
     Rough signals only — this is a deterministic stand-in for the LLM editor, not a
-    replacement for it. Higher is more relevant/substantial.
+    replacement for it. Higher is more relevant/substantial. `reputation`, when given, is
+    a {source_domain: bounded weight} map from click-through history that nudges the score.
     """
     score = 5.0
 
@@ -47,6 +53,10 @@ def score_article(article: Article, keywords: Sequence[str]) -> float:
     if any(hint in source_lower for hint in _AUTHORITATIVE_SOURCE_HINTS):
         score += 1.0
 
+    # Learned reader preference (click-through reputation) — a small bounded nudge.
+    if reputation:
+        score += reputation.get(source_domain(article.url), 0.0)
+
     # Clamp to the same 1.0–10.0 scale the LLM uses.
     return max(1.0, min(10.0, score))
 
@@ -55,6 +65,7 @@ def select_top_candidates(
     articles: Sequence[Article],
     keywords: Sequence[str],
     limit: int,
+    reputation: Mapping[str, float] | None = None,
 ) -> Sequence[Article]:
     """Pure: pick the `limit` highest-scoring candidates to send to the LLM.
 
@@ -65,7 +76,7 @@ def select_top_candidates(
         return list(articles)
     ranked = sorted(
         enumerate(articles),
-        key=lambda pair: (score_article(pair[1], keywords), -pair[0]),
+        key=lambda pair: (score_article(pair[1], keywords, reputation), -pair[0]),
         reverse=True,
     )
     selected = [art for _, art in ranked[:limit]]
