@@ -208,5 +208,40 @@
     "url": "https://discoveredmaterials.com/research/",
     "title": "Launch HN: Discovered Materials (YC P26) – AI agents to discover new materials",
     "sent_at": "2026-08-13T07:15:24.905205+00:00"
+  },
+  {
+    "url": "https://openai.com/index/previewing-ultrafast",
+    "title": "Previewing Ultrafast mode: GPT-5.6 Sol at up to 14X the speed",
+    "sent_at": "2026-08-15T06:21:12.762394+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.12373",
+    "title": "Don't Want Your LLM to Recommend Nuclear Strike? Try Asking It in Japanese",
+    "sent_at": "2026-08-15T06:21:12.762394+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/13/anthropic-set-ai-agents-loose-on-the-same-task-they-started-a-turf-war/",
+    "title": "Anthropic set AI agents loose on the same task. They started a turf war.",
+    "sent_at": "2026-08-15T06:21:12.762394+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/13/nvidias-new-500b-plan-is-risky-but-brilliant-especially-for-aging-gpus/",
+    "title": "Nvidia’s new $500B plan is risky but brilliant, especially for aging GPUs",
+    "sent_at": "2026-08-15T06:21:12.762394+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.12395",
+    "title": "Research Assistant: AstraZeneca's Agentic System for R&D",
+    "sent_at": "2026-08-15T06:21:12.762394+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/13/databricks-wanted-to-raise-1b-investors-wanted-15b-it-settled-on-5b-at-a-190b-valuation/",
+    "title": "Databricks wanted to raise $1B, investors wanted $15B. It settled on $5B at a $190B valuation.",
+    "sent_at": "2026-08-15T06:21:12.762394+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.12590",
+    "title": "Auditable agentic AI for evidence-grounded thyroid ultrasound diagnosis and reporting",
+    "sent_at": "2026-08-15T06:21:12.762394+00:00"
   }
 ]
