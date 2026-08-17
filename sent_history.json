@@ -243,5 +243,40 @@
     "url": "https://arxiv.org/abs/2608.12590",
     "title": "Auditable agentic AI for evidence-grounded thyroid ultrasound diagnosis and reporting",
     "sent_at": "2026-08-15T06:21:12.762394+00:00"
+  },
+  {
+    "url": "https://arstechnica.com/security/2026/07/jfrog-tries-to-spin-openai-0-day-exploit-of-its-app-into-a-success-story/",
+    "title": "We now have a better understanding how OpenAI hacked into Hugging Face",
+    "sent_at": "2026-08-17T06:34:57.573899+00:00"
+  },
+  {
+    "url": "https://arstechnica.com/ai/2026/08/openai-and-anthropic-in-price-war-as-chinese-ai-rivals-gain-ground/",
+    "title": "OpenAI and Anthropic in price war as Chinese AI rivals gain ground",
+    "sent_at": "2026-08-17T06:34:57.573899+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/13/openai-introduces-ultrafast-a-new-mode-that-makes-gpt-5-6-sol-work-at-14x-the-speed/",
+    "title": "OpenAI introduces ‘Ultrafast,’ a new mode that makes GPT-5.6 Sol work at 14x the speed",
+    "sent_at": "2026-08-17T06:34:57.573899+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/980817/openai-disbands-preparedness-team",
+    "title": "OpenAI reportedly disbanded its preparedness team",
+    "sent_at": "2026-08-17T06:34:57.573899+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/",
+    "title": "Stripe will reportedly acquire AI gateway startup OpenRouter for $7B+",
+    "sent_at": "2026-08-17T06:34:57.573899+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/introducing-gemini-3-5-flash-cyber/",
+    "title": "Introducing Gemini 3.5 Flash Cyber",
+    "sent_at": "2026-08-17T06:34:57.573899+00:00"
+  },
+  {
+    "url": "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows",
+    "title": "Expanding Daybreak as the Cyber Defense Window Narrows",
+    "sent_at": "2026-08-17T06:34:57.573899+00:00"
   }
 ]
