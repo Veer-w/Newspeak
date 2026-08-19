@@ -278,5 +278,40 @@
     "url": "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows",
     "title": "Expanding Daybreak as the Cyber Defense Window Narrows",
     "sent_at": "2026-08-17T06:34:57.573899+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/981640/openai-security-changes-ai-hugging-face-hack",
+    "title": "OpenAI lays out new security changes after its AI hacked Hugging Face",
+    "sent_at": "2026-08-19T06:26:40.018237+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.16891",
+    "title": "Runtime Governance for Agentic AI: Action-Boundary Control with Trusted Provenance and Fail-Closed Execution",
+    "sent_at": "2026-08-19T06:26:40.018237+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/980869/anthropic-claude-watermarks-synthid-text-system",
+    "title": "Anthropic explains how Claude’s invisible text watermarks will work",
+    "sent_at": "2026-08-19T06:26:40.018237+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/15/woman-claims-her-stepfather-used-grok-to-transform-childhood-photo-into-explicit-imagery/",
+    "title": "Woman claims her stepfather used Grok to transform childhood photo into explicit imagery",
+    "sent_at": "2026-08-19T06:26:40.018237+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/17/nvidia-investing-1-5b-in-softbank-data-center-developer-behind-openai-project/",
+    "title": "Nvidia investing $1.5B in SoftBank data center developer behind OpenAI project",
+    "sent_at": "2026-08-19T06:26:40.018237+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/introducing-gemini-3-7-flash/",
+    "title": "Introducing Gemini 3.7 Flash",
+    "sent_at": "2026-08-19T06:26:40.018237+00:00"
+  },
+  {
+    "url": "https://arstechnica.com/security/2026/08/microsoft-copilot-reveals-secret-input-that-allowed-it-to-be-hacked/",
+    "title": "Microsoft Copilot reveals secret input that allowed it to be hacked",
+    "sent_at": "2026-08-19T06:26:40.018237+00:00"
   }
 ]
