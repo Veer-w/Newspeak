@@ -313,5 +313,40 @@
     "url": "https://arstechnica.com/security/2026/08/microsoft-copilot-reveals-secret-input-that-allowed-it-to-be-hacked/",
     "title": "Microsoft Copilot reveals secret input that allowed it to be hacked",
     "sent_at": "2026-08-19T06:26:40.018237+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/982323/openai-hit-brakes-voluntary-pacing-ai",
+    "title": "OpenAI hit the brakes. Now what?",
+    "sent_at": "2026-08-21T06:29:10.456519+00:00"
+  },
+  {
+    "url": "https://arstechnica.com/security/2026/08/grok-exfiltrates-user-data-when-malicious-instructions-are-encrypted/",
+    "title": "Grok exfiltrates user data when malicious instructions are encrypted",
+    "sent_at": "2026-08-21T06:29:10.456519+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.18078",
+    "title": "Position: Collusion Risks Among AI Reasoning Agents Justify Certification Requirements for Making Market Decisions",
+    "sent_at": "2026-08-21T06:29:10.456519+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.18131",
+    "title": "Safety Alignment Illusion: The Cross-Lingual Safety Gap in LLMs",
+    "sent_at": "2026-08-21T06:29:10.456519+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/20/binance-now-lets-ai-agents-trade-but-keeping-them-in-check-is-largely-up-to-users/",
+    "title": "Binance now lets AI agents trade, but keeping them in check is largely up to users",
+    "sent_at": "2026-08-21T06:29:10.456519+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.18099",
+    "title": "FinSkillBench: Evaluating AI Agents and Domain Skills for Investment Management",
+    "sent_at": "2026-08-21T06:29:10.456519+00:00"
+  },
+  {
+    "url": "https://venturebeat.com/infrastructure/railway-secures-usd100-million-to-challenge-aws-with-ai-native-cloud",
+    "title": "Railway secures $100 million to challenge AWS with AI-native cloud infrastructure",
+    "sent_at": "2026-08-21T06:29:10.456519+00:00"
   }
 ]
