@@ -348,5 +348,40 @@
     "url": "https://venturebeat.com/infrastructure/railway-secures-usd100-million-to-challenge-aws-with-ai-native-cloud",
     "title": "Railway secures $100 million to challenge AWS with AI-native cloud infrastructure",
     "sent_at": "2026-08-21T06:29:10.456519+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/22/inherent-founded-by-deepmind-alumni-says-its-ai-teammate-just-outperformed-anthropic-and-openai-at-replicating-research/",
+    "title": "Inherent, founded by DeepMind alumni, says its AI ‘teammate’ just outperformed Anthropic and OpenAI at replicating research",
+    "sent_at": "2026-08-23T06:24:30.644381+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/22/frontier-ai-labs-still-wont-say-how-theyd-contain-a-rogue-model/",
+    "title": "Frontier AI labs still won’t say how they’d contain a rogue model",
+    "sent_at": "2026-08-23T06:24:30.644381+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/podcast/982434/ai-math-openai-astra-existential-crisis",
+    "title": "Welcome to the AI crisis in math",
+    "sent_at": "2026-08-23T06:24:30.644381+00:00"
+  },
+  {
+    "url": "https://huggingface.co/blog/nvidia/cosmos-h-dreams",
+    "title": "NVIDIA Cosmos-H-Dreams: Bringing Real-Time Generative Simulation to Surgical Robotics",
+    "sent_at": "2026-08-23T06:24:30.644381+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/21/nvidia-just-showed-that-the-harness-not-the-ai-model-is-now-the-real-hero/",
+    "title": "Nvidia just showed that the harness, not the AI model, is now the real hero",
+    "sent_at": "2026-08-23T06:24:30.644381+00:00"
+  },
+  {
+    "url": "https://annas-archive.gl/blog/physical-destruction.html",
+    "title": "AI companies destroy physical books – let's scan rare books before it's too late",
+    "sent_at": "2026-08-23T06:24:30.644381+00:00"
+  },
+  {
+    "url": "https://machinelearning.apple.com/research/scaling-laws-mixture-pretraining",
+    "title": "Scaling Laws for Mixture Pretraining Under Data Constraints",
+    "sent_at": "2026-08-23T06:24:30.644381+00:00"
   }
 ]
