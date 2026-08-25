@@ -383,5 +383,40 @@
     "url": "https://machinelearning.apple.com/research/scaling-laws-mixture-pretraining",
     "title": "Scaling Laws for Mixture Pretraining Under Data Constraints",
     "sent_at": "2026-08-23T06:24:30.644381+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/24/hugging-face-reportedly-in-talks-to-be-acquired-for-13b/",
+    "title": "Hugging Face reportedly in talks to be acquired for $13B",
+    "sent_at": "2026-08-25T06:29:23.242021+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/24/valor-point72-back-general-intuition-at-6b-valuation-as-ai-startup-pushes-into-robotics/",
+    "title": "Valor, Point72 back General Intuition at $6B valuation as AI startup pushes into robotics",
+    "sent_at": "2026-08-25T06:29:23.242021+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.21366",
+    "title": "Reviewing Model Collapse and Countermeasures",
+    "sent_at": "2026-08-25T06:29:23.242021+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.21362",
+    "title": "KVBoost: Chunk-Level Key-Value Cache Reuse with Deviation-Guided Recomputation for Efficient Large Language Model Inference",
+    "sent_at": "2026-08-25T06:29:23.242021+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.21577",
+    "title": "Anchoring Bias: A Persistent Fairness Backdoor Attack against MLLMs under Continual Learning",
+    "sent_at": "2026-08-25T06:29:23.242021+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/fluid-natural-voice-translation-with-gemini-35-live-translate/",
+    "title": "Fluid, natural voice translation with Gemini 3.5 Live Translate",
+    "sent_at": "2026-08-25T06:29:23.242021+00:00"
+  },
+  {
+    "url": "https://huggingface.co/blog/nvidia/magpie-tts-multilingual-voice-agents",
+    "title": "Build Low-Latency Multilingual Voice Agents: Open Weights & Full Deployment Control with NVIDIA Magpie TTS",
+    "sent_at": "2026-08-25T06:29:23.242021+00:00"
   }
 ]
