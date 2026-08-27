@@ -418,5 +418,40 @@
     "url": "https://huggingface.co/blog/nvidia/magpie-tts-multilingual-voice-agents",
     "title": "Build Low-Latency Multilingual Voice Agents: Open Weights & Full Deployment Control with NVIDIA Magpie TTS",
     "sent_at": "2026-08-25T06:29:23.242021+00:00"
+  },
+  {
+    "url": "https://www.businessinsider.com/nvidia-in-talks-to-buy-hugging-face-13-billion-dollars-2026-8",
+    "title": "Nvidia agrees to acquire Hugging Face for $13B",
+    "sent_at": "2026-08-27T17:06:01.877181+00:00"
+  },
+  {
+    "url": "https://arstechnica.com/security/2026/08/how-openai-let-a-mob-of-llm-agents-game-a-test-and-ransack-hugging-face/",
+    "title": "How OpenAI let a mob of LLM agents game a test and ransack Hugging Face",
+    "sent_at": "2026-08-27T17:06:01.877181+00:00"
+  },
+  {
+    "url": "https://openai.com/index/jalapeno-first-results",
+    "title": "Jalapeño’s first results show industry-leading speed and efficiency in AI inference",
+    "sent_at": "2026-08-27T17:06:01.877181+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.23622",
+    "title": "LLM Agents Perform Controlled Experiments Using Simulation Models",
+    "sent_at": "2026-08-27T17:06:01.877181+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/26/anthropic-continues-compute-gobbling-streak-in-45-billion-deal-with-nscale/",
+    "title": "Anthropic continues compute-gobbling streak in $45B deal with Nscale",
+    "sent_at": "2026-08-27T17:06:01.877181+00:00"
+  },
+  {
+    "url": "https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/",
+    "title": "Claude, Codex, and Hermes installed unowned code inside corporate networks",
+    "sent_at": "2026-08-27T17:06:01.877181+00:00"
+  },
+  {
+    "url": "https://forgeeks.net/nvidia-673-billion-ai-growth-forecast/",
+    "title": "Nvidia projects $673B in sales as AI demand widens",
+    "sent_at": "2026-08-27T17:06:01.877181+00:00"
   }
 ]
