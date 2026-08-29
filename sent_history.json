@@ -453,5 +453,40 @@
     "url": "https://forgeeks.net/nvidia-673-billion-ai-growth-forecast/",
     "title": "Nvidia projects $673B in sales as AI demand widens",
     "sent_at": "2026-08-27T17:06:01.877181+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/26/nvidia-closes-in-on-hugging-face-acquisition/",
+    "title": "Nvidia closes in on Hugging Face acquisition",
+    "sent_at": "2026-08-29T11:58:18.664452+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/985385/openais-rogue-ai-model-hugging-face-cybersecurity-incident-reports-metr",
+    "title": "OpenAI’s rogue AI model incident was worse than we thought",
+    "sent_at": "2026-08-29T11:58:18.664452+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/",
+    "title": "An Anthropic researcher just gave us a peek at self-improving AI",
+    "sent_at": "2026-08-29T11:58:18.664452+00:00"
+  },
+  {
+    "url": "https://huggingface.co/blog/MultiverseComputingCAI/quantization-aware-healing",
+    "title": "Quantization-Aware Healing: a compressed, 4-bit model that outperforms its full-precision original",
+    "sent_at": "2026-08-29T11:58:18.664452+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/28/neocloud-lambda-secures-1b-in-debt-to-buy-more-chips/",
+    "title": "Neocloud Lambda secures $1B in debt to buy more chips",
+    "sent_at": "2026-08-29T11:58:18.664452+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/tech/985491/adobe-photoshop-ai-assisted-editor-markup",
+    "title": "Adobe is adding more AI to Photoshop",
+    "sent_at": "2026-08-29T11:58:18.664452+00:00"
+  },
+  {
+    "url": "https://machinelearning.apple.com/research/llms-not-consistently-bayesian",
+    "title": "LLMs Are Not (Consistently) Bayesian: Quantifying Internal (In)consistencies of LLMs’ Probabilistic Beliefs",
+    "sent_at": "2026-08-29T11:58:18.664452+00:00"
   }
 ]
