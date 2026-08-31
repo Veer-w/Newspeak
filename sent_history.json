@@ -488,5 +488,40 @@
     "url": "https://machinelearning.apple.com/research/llms-not-consistently-bayesian",
     "title": "LLMs Are Not (Consistently) Bayesian: Quantifying Internal (In)consistencies of LLMs’ Probabilistic Beliefs",
     "sent_at": "2026-08-29T11:58:18.664452+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.27646",
+    "title": "If Agents Were Angels, No Governance Would Be Necessary: Out-of-Band Policy Enforcement at a Trusted Tool Boundary",
+    "sent_at": "2026-08-31T12:09:32.818694+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/985947/anthropic-supply-chain-risk-lawsuit-judge-ruling",
+    "title": "Anthropic was illegally blacklisted by the Trump administration, court rules",
+    "sent_at": "2026-08-31T12:09:32.818694+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright",
+    "title": "Sony Music Publishing and Warner Chappell are suing Anthropic",
+    "sent_at": "2026-08-31T12:09:32.818694+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.27580",
+    "title": "LongGuard: Mechanistic Analysis and Training-Free Mitigation of Long-Context Failure in Safety Guardrails",
+    "sent_at": "2026-08-31T12:09:32.818694+00:00"
+  },
+  {
+    "url": "https://machinelearning.apple.com/research/starflow2-multimodal-generation",
+    "title": "STARFlow2: Bridging Language Models and Normalizing Flows for Unified Multimodal Generation",
+    "sent_at": "2026-08-31T12:09:32.818694+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/27/openai-anthropic-google-and-100-other-companies-call-for-action-to-defend-against-rogue-ai/",
+    "title": "OpenAI, Anthropic, Google, and 100 other companies call for action to defend against rogue AI",
+    "sent_at": "2026-08-31T12:09:32.818694+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.27512",
+    "title": "Quantization-Triggered Backdoors in Language Models: Cross-Quantizer Transferability and the Validation--Deployment Gap",
+    "sent_at": "2026-08-31T12:09:32.818694+00:00"
   }
 ]
