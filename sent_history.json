@@ -523,5 +523,40 @@
     "url": "https://arxiv.org/abs/2608.27512",
     "title": "Quantization-Triggered Backdoors in Language Models: Cross-Quantizer Transferability and the Validation--Deployment Gap",
     "sent_at": "2026-08-31T12:09:32.818694+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2608.28911",
+    "title": "SemKV: Semantic Mixed-Precision KV Cache Quantization Guided by the Quality Cliff for Long-Context LLM Inference",
+    "sent_at": "2026-09-01T10:46:26.004874+00:00"
+  },
+  {
+    "url": "https://arstechnica.com/information-technology/2026/08/nvidia-discloses-21b-stake-in-spacex/",
+    "title": "Nvidia discloses $21B stake in SpaceX",
+    "sent_at": "2026-09-01T10:46:26.004874+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/31/nvidias-3-5b-mediatek-bet-reveals-its-plan-for-tackling-big-techs-ai-chip-buildout/",
+    "title": "Nvidia’s $3.5B MediaTek bet reveals its plan for tackling Big Tech’s AI chip buildout",
+    "sent_at": "2026-09-01T10:46:26.004874+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa",
+    "title": "ChatGPT to face tougher regulation in the EU",
+    "sent_at": "2026-09-01T10:46:26.004874+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/08/29/sony-music-warner-sue-anthropic-alleging-a-brazen-campaign-of-intellectual-property-theft/",
+    "title": "Sony Music, Warner sue Anthropic, alleging a ‘brazen campaign’ of intellectual property theft",
+    "sent_at": "2026-09-01T10:46:26.004874+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/introducing-computer-use-in-gemini-3-5-flash/",
+    "title": "Introducing computer use in Gemini 3.5 Flash",
+    "sent_at": "2026-09-01T10:46:26.004874+00:00"
+  },
+  {
+    "url": "https://machinelearning.apple.com/research/relightable-gaussians-3d-generation",
+    "title": "Luce: Relightable Gaussians for 3D Asset Generation",
+    "sent_at": "2026-09-01T10:46:26.004874+00:00"
   }
 ]
