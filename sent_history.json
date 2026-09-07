@@ -1,40 +1,5 @@
 [
   {
-    "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt",
-    "title": "Improving GPT‑5.6 Sol in ChatGPT—and expanding access to GPT-5.6 Luna for free users",
-    "sent_at": "2026-08-07T07:00:20.624059+00:00"
-  },
-  {
-    "url": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
-    "title": "Gemini Robotics 2 brings whole body intelligence to robots",
-    "sent_at": "2026-08-07T07:00:20.624059+00:00"
-  },
-  {
-    "url": "https://blog.google/company-news/inside-google/message-ceo/next-chapter-ai-momentum/",
-    "title": "Changes at Google DeepMind: Demis Hassabis from CEO to Chair, Jeff Dean departs",
-    "sent_at": "2026-08-07T07:00:20.624059+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/05/anthropic-is-hiring-an-ai-chip-design-team/",
-    "title": "Anthropic is hiring an AI chip design team",
-    "sent_at": "2026-08-07T07:00:20.624059+00:00"
-  },
-  {
-    "url": "https://deepmind.google/blog/introducing-gemma-4-12b-a-unified-encoder-free-multimodal-model/",
-    "title": "Introducing Gemma 4 12B: a unified, encoder-free multimodal model",
-    "sent_at": "2026-08-07T07:00:20.624059+00:00"
-  },
-  {
-    "url": "https://openai.com/index/continuous-voice-interaction-with-gpt-live",
-    "title": "How we built a realtime system for responsive voice AI in six months",
-    "sent_at": "2026-08-07T07:00:20.624059+00:00"
-  },
-  {
-    "url": "https://deepmind.google/blog/introducing-gemini-3-6-flash-3-5-flash-lite-and-3-5-flash-cyber/",
-    "title": "Introducing Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber",
-    "sent_at": "2026-08-07T07:00:20.624059+00:00"
-  },
-  {
     "url": "https://openai.com/index/responding-next-frontier-critical-cyber-capabilities",
     "title": "Responding to the next frontier of critical cyber capabilities",
     "sent_at": "2026-08-09T06:38:41.713416+00:00"
@@ -558,5 +523,40 @@
     "url": "https://www.kedglobal.com/artificial-intelligence/newsView/ked202607210007",
     "title": "Go grandmaster Shin defeats AI KataGo with a two-stone handicap",
     "sent_at": "2026-09-05T09:39:44.103577+00:00"
+  },
+  {
+    "url": "https://openai.com/index/gpt-6-astra/",
+    "title": "GPT-6 Astra",
+    "sent_at": "2026-09-07T11:02:33.444070+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/05/hikers-rescued-after-using-google-gemini-for-planning/",
+    "title": "Hikers rescued after using Google Gemini for planning",
+    "sent_at": "2026-09-07T11:02:33.444070+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/990149/openai-rogue-agents-german-wiki",
+    "title": "Rogue OpenAI agents appear to have organized another attack using a German wiki",
+    "sent_at": "2026-09-07T11:02:33.444070+00:00"
+  },
+  {
+    "url": "https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads",
+    "title": "A milestone in expanding access to AI",
+    "sent_at": "2026-09-07T11:02:33.444070+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/gemini-robotics-er-2-powering-robotics-with-video-understanding-task-orchestration-and-multi-robot-collaboration/",
+    "title": "Gemini Robotics ER 2: powering robotics with video understanding, task orchestration, and multi-robot collaboration",
+    "sent_at": "2026-09-07T11:02:33.444070+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2609.04373",
+    "title": "Why Better Models Can Create Riskier Systems: Evidence from LLM Agents in Financial Markets",
+    "sent_at": "2026-09-07T11:02:33.444070+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/",
+    "title": "OpenAI confirms ‘wiki incident,’ says it’s ‘working on a framework’ for more disclosure",
+    "sent_at": "2026-09-07T11:02:33.444070+00:00"
   }
 ]
