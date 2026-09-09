@@ -1,40 +1,5 @@
 [
   {
-    "url": "https://openai.com/index/responding-next-frontier-critical-cyber-capabilities",
-    "title": "Responding to the next frontier of critical cyber capabilities",
-    "sent_at": "2026-08-09T06:38:41.713416+00:00"
-  },
-  {
-    "url": "https://simonwillison.net/2026/Aug/7/openai-timeline/",
-    "title": "Timeline of the OpenAI accidental attack against Hugging Face",
-    "sent_at": "2026-08-09T06:38:41.713416+00:00"
-  },
-  {
-    "url": "https://app.dealroom.co/news/feed/oracle-bans-ai-generated-code-from-openjdk-despite-ellison-s-claim-oracle-isn-t-writing-its-own-code",
-    "title": "Oracle bans AI-generated code from OpenJDK",
-    "sent_at": "2026-08-09T06:38:41.713416+00:00"
-  },
-  {
-    "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
-    "title": "DeepMind's WeatherNext model achieves breakthrough forecasting cyclones",
-    "sent_at": "2026-08-09T06:38:41.713416+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/06/exclusive-mirendil-inks-100m-google-cloud-deal-to-scale-self-improving-ai/",
-    "title": "Exclusive: Mirendil inks $100M+ Google Cloud deal to scale self-improving AI",
-    "sent_at": "2026-08-09T06:38:41.713416+00:00"
-  },
-  {
-    "url": "https://www.theregister.com/systems/2026/08/06/amd-acquires-ai-chip-startup-taalas-to-boost-inference-performance-by-etching-models-into-silicon/5284344",
-    "title": "AMD acquires Taalas to boost inference performance by etching models in silicon",
-    "sent_at": "2026-08-09T06:38:41.713416+00:00"
-  },
-  {
-    "url": "https://www.theverge.com/ai-artificial-intelligence/976431/openai-chatgpt-battery-smart-speaker-rumor",
-    "title": "Jony Ive’s first OpenAI gadget is reportedly a hockey puck-sized smart speaker",
-    "sent_at": "2026-08-09T06:38:41.713416+00:00"
-  },
-  {
     "url": "https://arxiv.org/abs/2608.07532",
     "title": "Dynamic Coalition Formation and Communication Pricing in Skill-Based Agentic AI Systems",
     "sent_at": "2026-08-11T06:51:33.628039+00:00"
@@ -558,5 +523,40 @@
     "url": "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/",
     "title": "OpenAI confirms ‘wiki incident,’ says it’s ‘working on a framework’ for more disclosure",
     "sent_at": "2026-09-07T11:02:33.444070+00:00"
+  },
+  {
+    "url": "https://openai.com/index/navier-stokes-solution",
+    "title": "On the Navier–Stokes Millennium Prize Problem",
+    "sent_at": "2026-09-09T10:23:33.373674+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/alphagenome-atlas-a-predictive-map-of-every-possible-dna-letter-change-in-the-human-genome/",
+    "title": "AlphaGenome Atlas: A predictive map of every possible DNA letter change in the human genome",
+    "sent_at": "2026-09-09T10:23:33.373674+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/08/mistral-raises-e3b-as-sovereign-ai-becomes-big-business/",
+    "title": "Mistral raises €3B as sovereign AI becomes big business",
+    "sent_at": "2026-09-09T10:23:33.373674+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/991927/anthropic-ai-kill-all-humans",
+    "title": "More than 1 in 10 chance AI ‘could kill all humans,’ says Anthropic safety lead after colleague quits",
+    "sent_at": "2026-09-09T10:23:33.373674+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/",
+    "title": "OpenAI’s rogue agents keep escaping, with no formal process to investigate them",
+    "sent_at": "2026-09-09T10:23:33.373674+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/990932/seattle-times-newsday-lawsuit-openai-microsoft",
+    "title": "Seattle Times and Newsday sue OpenAI and Microsoft for infringement",
+    "sent_at": "2026-09-09T10:23:33.373674+00:00"
+  },
+  {
+    "url": "https://openai.com/index/safety-overview-gpt-6-astra",
+    "title": "Safety overview: GPT-6 Astra",
+    "sent_at": "2026-09-09T10:23:33.373674+00:00"
   }
 ]
