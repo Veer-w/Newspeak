@@ -1,40 +1,5 @@
 [
   {
-    "url": "https://arxiv.org/abs/2608.07532",
-    "title": "Dynamic Coalition Formation and Communication Pricing in Skill-Based Agentic AI Systems",
-    "sent_at": "2026-08-11T06:51:33.628039+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.07538",
-    "title": "When LLM Agents Negotiate: Private Information and Dynamic Bargaining in Supply Chains",
-    "sent_at": "2026-08-11T06:51:33.628039+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.07627",
-    "title": "From Single Chatbots to Governed Agent Ecosystems: An Agentic AI Pattern Catalogue and Orchestration Framework for Mission-Critical Hospital Information Management Systems",
-    "sent_at": "2026-08-11T06:51:33.628039+00:00"
-  },
-  {
-    "url": "https://cactuscompute.com/needle",
-    "title": "Show HN: Needle2: 14MB agentic LLM for phones, wearables, smart home and robots",
-    "sent_at": "2026-08-11T06:51:33.628039+00:00"
-  },
-  {
-    "url": "https://machinelearning.apple.com/research/alignment-multimodal-llms",
-    "title": "Understanding Alignment in Multimodal LLMs: A Comprehensive Study",
-    "sent_at": "2026-08-11T06:51:33.628039+00:00"
-  },
-  {
-    "url": "https://github.com/leog/ai-pulse",
-    "title": "Show HN: AI Pulse a fake LED strip beside the macOS Dock that shows agent status",
-    "sent_at": "2026-08-11T06:51:33.628039+00:00"
-  },
-  {
-    "url": "https://www.whodunnitai.com/",
-    "title": "Show HN: Voice driven murder mystery, Interview AI suspects with your voice",
-    "sent_at": "2026-08-11T06:51:33.628039+00:00"
-  },
-  {
     "url": "https://www.theverge.com/ai-artificial-intelligence/978113/chatgpt-gemini-1-billion-users",
     "title": "ChatGPT and Gemini both just passed 1 billion users",
     "sent_at": "2026-08-13T07:15:24.905205+00:00"
@@ -558,5 +523,40 @@
     "url": "https://openai.com/index/safety-overview-gpt-6-astra",
     "title": "Safety overview: GPT-6 Astra",
     "sent_at": "2026-09-09T10:23:33.373674+00:00"
+  },
+  {
+    "url": "https://openai.com/index/gpt-6-astra-next-generation-work",
+    "title": "GPT-6 Astra: The next generation in intelligence for work",
+    "sent_at": "2026-09-11T10:13:36.716691+00:00"
+  },
+  {
+    "url": "https://openai.com/index/introducing-the-agents-api",
+    "title": "Introducing the Agents API",
+    "sent_at": "2026-09-11T10:13:36.716691+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/introducing-gemini-3-6-flash-3-5-flash-lite-and-3-5-flash-cyber/",
+    "title": "Introducing Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber",
+    "sent_at": "2026-09-11T10:13:36.716691+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/10/anthropic-details-distillation-campaigns-from-alibaba-moonshot-ai-and-deepseek/",
+    "title": "Anthropic details distillation campaigns from Alibaba, Moonshot AI, and DeepSeek",
+    "sent_at": "2026-09-11T10:13:36.716691+00:00"
+  },
+  {
+    "url": "https://openai.com/index/paul-christiano-joins-openai-foundation-board",
+    "title": "Paul Christiano joins OpenAI Foundation Board",
+    "sent_at": "2026-09-11T10:13:36.716691+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2609.09647",
+    "title": "Black-Box Red Teaming of Agentic AI: A Taxonomy-Driven Framework for Automated Risk Discovery",
+    "sent_at": "2026-09-11T10:13:36.716691+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/993465/universal-music-elevenlabs-ai",
+    "title": "Universal Music is launching an AI music platform with ElevenLabs",
+    "sent_at": "2026-09-11T10:13:36.716691+00:00"
   }
 ]
