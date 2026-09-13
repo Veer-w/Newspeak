@@ -1,40 +1,5 @@
 [
   {
-    "url": "https://www.theverge.com/ai-artificial-intelligence/978113/chatgpt-gemini-1-billion-users",
-    "title": "ChatGPT and Gemini both just passed 1 billion users",
-    "sent_at": "2026-08-13T07:15:24.905205+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/11/general-catalyst-leads-1-1b-round-into-2-month-old-river-ai/",
-    "title": "General Catalyst leads $1.1B round into 2-month-old River AI",
-    "sent_at": "2026-08-13T07:15:24.905205+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/11/an-unreleased-anthropic-model-made-progress-on-one-of-maths-biggest-unsolved-problems/",
-    "title": "An unreleased Anthropic model made progress on one of math’s biggest unsolved problems",
-    "sent_at": "2026-08-13T07:15:24.905205+00:00"
-  },
-  {
-    "url": "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/",
-    "title": "Putting sign language AI into users’ hands",
-    "sent_at": "2026-08-13T07:15:24.905205+00:00"
-  },
-  {
-    "url": "https://arstechnica.com/security/2026/08/terabytes-of-credentials-leaked-in-massive-supply-chain-attack/",
-    "title": "Terabytes of credentials leaked in massive supply-chain attack",
-    "sent_at": "2026-08-13T07:15:24.905205+00:00"
-  },
-  {
-    "url": "https://huggingface.co/blog/muse-glimmer",
-    "title": "Meta is back with Muse Glimmer: local, agentic, multimodal, and open source",
-    "sent_at": "2026-08-13T07:15:24.905205+00:00"
-  },
-  {
-    "url": "https://discoveredmaterials.com/research/",
-    "title": "Launch HN: Discovered Materials (YC P26) – AI agents to discover new materials",
-    "sent_at": "2026-08-13T07:15:24.905205+00:00"
-  },
-  {
     "url": "https://openai.com/index/previewing-ultrafast",
     "title": "Previewing Ultrafast mode: GPT-5.6 Sol at up to 14X the speed",
     "sent_at": "2026-08-15T06:21:12.762394+00:00"
@@ -558,5 +523,40 @@
     "url": "https://www.theverge.com/ai-artificial-intelligence/993465/universal-music-elevenlabs-ai",
     "title": "Universal Music is launching an AI music platform with ElevenLabs",
     "sent_at": "2026-09-11T10:13:36.716691+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/994383/openais-rogue-ai-rubygems-hack",
+    "title": "OpenAI’s rogue AI tried to hack another company in May",
+    "sent_at": "2026-09-13T10:48:11.806756+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/994384/sam-altman-no-openai-ipo-ill-advised",
+    "title": "Sam Altman says OpenAI going public in 2026 would be ‘ill-advised’",
+    "sent_at": "2026-09-13T10:48:11.806756+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/994337/anthropic-ceo-slow-down-ai-development",
+    "title": "Anthropic CEO says it’s time to pump the brakes on AI",
+    "sent_at": "2026-09-13T10:48:11.806756+00:00"
+  },
+  {
+    "url": "https://mathandai.org/",
+    "title": "A misalignment of AI in mathematics",
+    "sent_at": "2026-09-13T10:48:11.806756+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/podcast/an-anthropic-researchers-doomsday-warning-comes-at-a-very-interesting-time/",
+    "title": "An Anthropic researcher’s doomsday warning comes at a very interesting time",
+    "sent_at": "2026-09-13T10:48:11.806756+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/10/jensen-huang-explains-why-nvidia-will-grow-an-astounding-70-next-year/",
+    "title": "Jensen Huang explains why Nvidia will grow an astounding 70% next year",
+    "sent_at": "2026-09-13T10:48:11.806756+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/introducing-weathernext-3-our-most-advanced-and-accurate-global-weather-ai-model/",
+    "title": "Introducing WeatherNext 3, our most advanced and accurate global weather AI model",
+    "sent_at": "2026-09-13T10:48:11.806756+00:00"
   }
 ]
