@@ -1,40 +1,5 @@
 [
   {
-    "url": "https://openai.com/index/previewing-ultrafast",
-    "title": "Previewing Ultrafast mode: GPT-5.6 Sol at up to 14X the speed",
-    "sent_at": "2026-08-15T06:21:12.762394+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.12373",
-    "title": "Don't Want Your LLM to Recommend Nuclear Strike? Try Asking It in Japanese",
-    "sent_at": "2026-08-15T06:21:12.762394+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/13/anthropic-set-ai-agents-loose-on-the-same-task-they-started-a-turf-war/",
-    "title": "Anthropic set AI agents loose on the same task. They started a turf war.",
-    "sent_at": "2026-08-15T06:21:12.762394+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/13/nvidias-new-500b-plan-is-risky-but-brilliant-especially-for-aging-gpus/",
-    "title": "Nvidia’s new $500B plan is risky but brilliant, especially for aging GPUs",
-    "sent_at": "2026-08-15T06:21:12.762394+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.12395",
-    "title": "Research Assistant: AstraZeneca's Agentic System for R&D",
-    "sent_at": "2026-08-15T06:21:12.762394+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/13/databricks-wanted-to-raise-1b-investors-wanted-15b-it-settled-on-5b-at-a-190b-valuation/",
-    "title": "Databricks wanted to raise $1B, investors wanted $15B. It settled on $5B at a $190B valuation.",
-    "sent_at": "2026-08-15T06:21:12.762394+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.12590",
-    "title": "Auditable agentic AI for evidence-grounded thyroid ultrasound diagnosis and reporting",
-    "sent_at": "2026-08-15T06:21:12.762394+00:00"
-  },
-  {
     "url": "https://arstechnica.com/security/2026/07/jfrog-tries-to-spin-openai-0-day-exploit-of-its-app-into-a-success-story/",
     "title": "We now have a better understanding how OpenAI hacked into Hugging Face",
     "sent_at": "2026-08-17T06:34:57.573899+00:00"
@@ -558,5 +523,40 @@
     "url": "https://deepmind.google/blog/introducing-weathernext-3-our-most-advanced-and-accurate-global-weather-ai-model/",
     "title": "Introducing WeatherNext 3, our most advanced and accurate global weather AI model",
     "sent_at": "2026-09-13T10:48:11.806756+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/12/anthropic-ceo-outlines-plan-to-pace-the-frontier/",
+    "title": "Anthropic CEO outlines plan to slow AI development",
+    "sent_at": "2026-09-15T10:42:12.517957+00:00"
+  },
+  {
+    "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/",
+    "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
+    "sent_at": "2026-09-15T10:42:12.517957+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/14/nvidia-ceo-jensen-huang-tells-trump-were-not-going-to-let-an-ai-slowdown-happen/",
+    "title": "Nvidia CEO Jensen Huang tells Trump ‘we’re not going to let [an AI slowdown] happen’",
+    "sent_at": "2026-09-15T10:42:12.517957+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
+    "title": "Gemini Robotics 2 brings whole body intelligence to robots",
+    "sent_at": "2026-09-15T10:42:12.517957+00:00"
+  },
+  {
+    "url": "https://www.theregister.com/ai-and-ml/2026/09/14/ex-ftc-boss-khan-urges-uncle-sam-to-break-out-the-handcuffs-for-ai-ceos-citing-1934-precedent/5296325",
+    "title": "Ex-FTC boss Khan: break out the handcuffs for AI CEOs, citing 1934 precedent",
+    "sent_at": "2026-09-15T10:42:12.517957+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+    "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+    "sent_at": "2026-09-15T10:42:12.517957+00:00"
+  },
+  {
+    "url": "https://arstechnica.com/ai/2026/08/metas-scrapped-plans-to-go-ai-native-included-slashing-teams-by-60-percent/",
+    "title": "AI agents meant to replace Meta workers made “large-scale, disruptive actions”",
+    "sent_at": "2026-09-15T10:42:12.517957+00:00"
   }
 ]
