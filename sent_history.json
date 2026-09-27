@@ -1,40 +1,5 @@
 [
   {
-    "url": "https://www.businessinsider.com/nvidia-in-talks-to-buy-hugging-face-13-billion-dollars-2026-8",
-    "title": "Nvidia agrees to acquire Hugging Face for $13B",
-    "sent_at": "2026-08-27T17:06:01.877181+00:00"
-  },
-  {
-    "url": "https://arstechnica.com/security/2026/08/how-openai-let-a-mob-of-llm-agents-game-a-test-and-ransack-hugging-face/",
-    "title": "How OpenAI let a mob of LLM agents game a test and ransack Hugging Face",
-    "sent_at": "2026-08-27T17:06:01.877181+00:00"
-  },
-  {
-    "url": "https://openai.com/index/jalapeno-first-results",
-    "title": "Jalapeño’s first results show industry-leading speed and efficiency in AI inference",
-    "sent_at": "2026-08-27T17:06:01.877181+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.23622",
-    "title": "LLM Agents Perform Controlled Experiments Using Simulation Models",
-    "sent_at": "2026-08-27T17:06:01.877181+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/26/anthropic-continues-compute-gobbling-streak-in-45-billion-deal-with-nscale/",
-    "title": "Anthropic continues compute-gobbling streak in $45B deal with Nscale",
-    "sent_at": "2026-08-27T17:06:01.877181+00:00"
-  },
-  {
-    "url": "https://arstechnica.com/security/2026/08/claude-codex-and-hermes-installed-unowned-code-inside-corporate-networks/",
-    "title": "Claude, Codex, and Hermes installed unowned code inside corporate networks",
-    "sent_at": "2026-08-27T17:06:01.877181+00:00"
-  },
-  {
-    "url": "https://forgeeks.net/nvidia-673-billion-ai-growth-forecast/",
-    "title": "Nvidia projects $673B in sales as AI demand widens",
-    "sent_at": "2026-08-27T17:06:01.877181+00:00"
-  },
-  {
     "url": "https://techcrunch.com/2026/08/26/nvidia-closes-in-on-hugging-face-acquisition/",
     "title": "Nvidia closes in on Hugging Face acquisition",
     "sent_at": "2026-08-29T11:58:18.664452+00:00"
@@ -558,5 +523,40 @@
     "url": "https://techcrunch.com/2026/09/24/australia-to-investigate-if-openai-hack-of-government-health-website-broke-the-law/",
     "title": "Australia to investigate if OpenAI hack of government health website broke the law",
     "sent_at": "2026-09-25T10:49:24.672331+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/1001049/openai-training-pause",
+    "title": "OpenAI pauses training of its ‘most capable models’",
+    "sent_at": "2026-09-27T11:02:17.978069+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/25/anthropic-to-pay-akamai-11-6-billion-over-seven-years-in-cloud-deal/",
+    "title": "Anthropic to pay Akamai $11.6 billion over seven years in cloud deal",
+    "sent_at": "2026-09-27T11:02:17.978069+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/1000644/irregular-rogue-ai-cyberattacks-hacking-openai-meta-anthropic-google",
+    "title": "One company is at the center of a wave of rogue AI attacks",
+    "sent_at": "2026-09-27T11:02:17.978069+00:00"
+  },
+  {
+    "url": "https://swarmtraces.org/",
+    "title": "Revealing the details of how OpenAI agents hacked Hugging Face",
+    "sent_at": "2026-09-27T11:02:17.978069+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/podcast/metas-muse-just-stole-the-ai-spotlight-from-openai-and-anthropic/",
+    "title": "Meta’s Muse just stole the AI spotlight from OpenAI and Anthropic",
+    "sent_at": "2026-09-27T11:02:17.978069+00:00"
+  },
+  {
+    "url": "https://deepmind.google/blog/introducing-gemini-38-live-with-live-avatar/",
+    "title": "Introducing Gemini 3.8 Live with Live Avatar",
+    "sent_at": "2026-09-27T11:02:17.978069+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/25/anthropics-founders-seek-voting-control-ahead-of-ipo/",
+    "title": "Anthropic’s founders seek voting control ahead of IPO",
+    "sent_at": "2026-09-27T11:02:17.978069+00:00"
   }
 ]
