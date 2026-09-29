@@ -1,40 +1,5 @@
 [
   {
-    "url": "https://techcrunch.com/2026/08/26/nvidia-closes-in-on-hugging-face-acquisition/",
-    "title": "Nvidia closes in on Hugging Face acquisition",
-    "sent_at": "2026-08-29T11:58:18.664452+00:00"
-  },
-  {
-    "url": "https://www.theverge.com/ai-artificial-intelligence/985385/openais-rogue-ai-model-hugging-face-cybersecurity-incident-reports-metr",
-    "title": "OpenAI’s rogue AI model incident was worse than we thought",
-    "sent_at": "2026-08-29T11:58:18.664452+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/28/an-anthropic-researcher-just-gave-us-a-peek-at-self-improving-ai/",
-    "title": "An Anthropic researcher just gave us a peek at self-improving AI",
-    "sent_at": "2026-08-29T11:58:18.664452+00:00"
-  },
-  {
-    "url": "https://huggingface.co/blog/MultiverseComputingCAI/quantization-aware-healing",
-    "title": "Quantization-Aware Healing: a compressed, 4-bit model that outperforms its full-precision original",
-    "sent_at": "2026-08-29T11:58:18.664452+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/28/neocloud-lambda-secures-1b-in-debt-to-buy-more-chips/",
-    "title": "Neocloud Lambda secures $1B in debt to buy more chips",
-    "sent_at": "2026-08-29T11:58:18.664452+00:00"
-  },
-  {
-    "url": "https://www.theverge.com/tech/985491/adobe-photoshop-ai-assisted-editor-markup",
-    "title": "Adobe is adding more AI to Photoshop",
-    "sent_at": "2026-08-29T11:58:18.664452+00:00"
-  },
-  {
-    "url": "https://machinelearning.apple.com/research/llms-not-consistently-bayesian",
-    "title": "LLMs Are Not (Consistently) Bayesian: Quantifying Internal (In)consistencies of LLMs’ Probabilistic Beliefs",
-    "sent_at": "2026-08-29T11:58:18.664452+00:00"
-  },
-  {
     "url": "https://arxiv.org/abs/2608.27646",
     "title": "If Agents Were Angels, No Governance Would Be Necessary: Out-of-Band Policy Enforcement at a Trusted Tool Boundary",
     "sent_at": "2026-08-31T12:09:32.818694+00:00"
@@ -558,5 +523,40 @@
     "url": "https://techcrunch.com/2026/09/25/anthropics-founders-seek-voting-control-ahead-of-ipo/",
     "title": "Anthropic’s founders seek voting control ahead of IPO",
     "sent_at": "2026-09-27T11:02:17.978069+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/tech/1001287/nvidia-ai-safety-platform-rogue-agents",
+    "title": "Nvidia says its new AI safety platform can contain rogue agents within ‘milliseconds’",
+    "sent_at": "2026-09-29T11:48:31.366570+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/tech/1001749/amd-world-labs-ai-acquisition-deal",
+    "title": "AMD is acquiring AI company World Labs in a deal worth more than $8 billion",
+    "sent_at": "2026-09-29T11:48:31.366570+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/28/anthropic-releases-sonnet-5-5-which-it-calls-a-significantly-cheaper-faster-work-partner/",
+    "title": "Anthropic releases Sonnet 5.5, which it calls a significantly cheaper, faster work partner",
+    "sent_at": "2026-09-29T11:48:31.366570+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/28/meta-launches-enterprise-ai-platform-hires-mongodb-ceo-to-lead-new-initiative/",
+    "title": "Meta launches enterprise AI platform, hires MongoDB CEO to lead new initiative",
+    "sent_at": "2026-09-29T11:48:31.366570+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/1001427/ai-is-supercharging-hacking-and-your-local-hospitals-and-banks-arent-ready",
+    "title": "AI is supercharging hacking, and your local hospitals and banks aren’t ready",
+    "sent_at": "2026-09-29T11:48:31.366570+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/28/openai-still-doesnt-seem-to-have-a-handle-on-all-of-its-rogue-ai-activity/",
+    "title": "OpenAI still doesn’t seem to have a handle on all of its rogue AI activity",
+    "sent_at": "2026-09-29T11:48:31.366570+00:00"
+  },
+  {
+    "url": "https://openai.com/index/sam-altman-un-security-council-remarks",
+    "title": "Sam Altman’s remarks at the United Nations Security Council",
+    "sent_at": "2026-09-29T11:48:31.366570+00:00"
   }
 ]
