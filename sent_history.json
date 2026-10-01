@@ -1,75 +1,5 @@
 [
   {
-    "url": "https://arxiv.org/abs/2608.27646",
-    "title": "If Agents Were Angels, No Governance Would Be Necessary: Out-of-Band Policy Enforcement at a Trusted Tool Boundary",
-    "sent_at": "2026-08-31T12:09:32.818694+00:00"
-  },
-  {
-    "url": "https://www.theverge.com/ai-artificial-intelligence/985947/anthropic-supply-chain-risk-lawsuit-judge-ruling",
-    "title": "Anthropic was illegally blacklisted by the Trump administration, court rules",
-    "sent_at": "2026-08-31T12:09:32.818694+00:00"
-  },
-  {
-    "url": "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright",
-    "title": "Sony Music Publishing and Warner Chappell are suing Anthropic",
-    "sent_at": "2026-08-31T12:09:32.818694+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.27580",
-    "title": "LongGuard: Mechanistic Analysis and Training-Free Mitigation of Long-Context Failure in Safety Guardrails",
-    "sent_at": "2026-08-31T12:09:32.818694+00:00"
-  },
-  {
-    "url": "https://machinelearning.apple.com/research/starflow2-multimodal-generation",
-    "title": "STARFlow2: Bridging Language Models and Normalizing Flows for Unified Multimodal Generation",
-    "sent_at": "2026-08-31T12:09:32.818694+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/27/openai-anthropic-google-and-100-other-companies-call-for-action-to-defend-against-rogue-ai/",
-    "title": "OpenAI, Anthropic, Google, and 100 other companies call for action to defend against rogue AI",
-    "sent_at": "2026-08-31T12:09:32.818694+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.27512",
-    "title": "Quantization-Triggered Backdoors in Language Models: Cross-Quantizer Transferability and the Validation--Deployment Gap",
-    "sent_at": "2026-08-31T12:09:32.818694+00:00"
-  },
-  {
-    "url": "https://arxiv.org/abs/2608.28911",
-    "title": "SemKV: Semantic Mixed-Precision KV Cache Quantization Guided by the Quality Cliff for Long-Context LLM Inference",
-    "sent_at": "2026-09-01T10:46:26.004874+00:00"
-  },
-  {
-    "url": "https://arstechnica.com/information-technology/2026/08/nvidia-discloses-21b-stake-in-spacex/",
-    "title": "Nvidia discloses $21B stake in SpaceX",
-    "sent_at": "2026-09-01T10:46:26.004874+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/31/nvidias-3-5b-mediatek-bet-reveals-its-plan-for-tackling-big-techs-ai-chip-buildout/",
-    "title": "Nvidia’s $3.5B MediaTek bet reveals its plan for tackling Big Tech’s AI chip buildout",
-    "sent_at": "2026-09-01T10:46:26.004874+00:00"
-  },
-  {
-    "url": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa",
-    "title": "ChatGPT to face tougher regulation in the EU",
-    "sent_at": "2026-09-01T10:46:26.004874+00:00"
-  },
-  {
-    "url": "https://techcrunch.com/2026/08/29/sony-music-warner-sue-anthropic-alleging-a-brazen-campaign-of-intellectual-property-theft/",
-    "title": "Sony Music, Warner sue Anthropic, alleging a ‘brazen campaign’ of intellectual property theft",
-    "sent_at": "2026-09-01T10:46:26.004874+00:00"
-  },
-  {
-    "url": "https://deepmind.google/blog/introducing-computer-use-in-gemini-3-5-flash/",
-    "title": "Introducing computer use in Gemini 3.5 Flash",
-    "sent_at": "2026-09-01T10:46:26.004874+00:00"
-  },
-  {
-    "url": "https://machinelearning.apple.com/research/relightable-gaussians-3d-generation",
-    "title": "Luce: Relightable Gaussians for 3D Asset Generation",
-    "sent_at": "2026-09-01T10:46:26.004874+00:00"
-  },
-  {
     "url": "https://arxiv.org/abs/2609.01873",
     "title": "Epistemic Sybil Resistance: Multiplying AI Agents Without Multiplying Evidence",
     "sent_at": "2026-09-03T10:27:57.279569+00:00"
@@ -558,5 +488,40 @@
     "url": "https://openai.com/index/sam-altman-un-security-council-remarks",
     "title": "Sam Altman’s remarks at the United Nations Security Council",
     "sent_at": "2026-09-29T11:48:31.366570+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2609.38296",
+    "title": "AI Agents are Vulnerable to Radicalization",
+    "sent_at": "2026-10-01T12:03:31.905759+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2609.38458",
+    "title": "PrivMeSA: Privacy-Aware Self-Evolving Multi-Agent System for Medicine via Local-Remote LLM Collaboration",
+    "sent_at": "2026-10-01T12:03:31.905759+00:00"
+  },
+  {
+    "url": "https://techcrunch.com/2026/09/29/heres-why-openai-is-absent-from-nvidias-industry-wide-effort-to-end-rogue-ai-agents/",
+    "title": "Here’s why OpenAI is absent from Nvidia’s industry-wide effort to end rogue AI agents",
+    "sent_at": "2026-10-01T12:03:31.905759+00:00"
+  },
+  {
+    "url": "https://arxiv.org/abs/2609.38369",
+    "title": "Can an AI Agent Rediscover a Blaschke-Curve Invariant?",
+    "sent_at": "2026-10-01T12:03:31.905759+00:00"
+  },
+  {
+    "url": "https://openai.com/index/ringg",
+    "title": "Ringg’s AI agents resolve up to 65% of customer calls with OpenAI",
+    "sent_at": "2026-10-01T12:03:31.905759+00:00"
+  },
+  {
+    "url": "https://github.com/magnitudedev/magnitude",
+    "title": "Launch HN: Magnitude (YC S25) – Self-optimizing inference engine for agents",
+    "sent_at": "2026-10-01T12:03:31.905759+00:00"
+  },
+  {
+    "url": "https://www.theverge.com/ai-artificial-intelligence/1002671/meta-muse-ai",
+    "title": "All the latest news on Meta’s cute, creepy Muse AI agent",
+    "sent_at": "2026-10-01T12:03:31.905759+00:00"
   }
 ]
